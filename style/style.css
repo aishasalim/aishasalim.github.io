@@ -1,0 +1,418 @@
+html {
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+body {
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
+}
+
+.container {
+  height: 100vh;
+  width: 100vh;
+  margin: 0 auto;
+  text-align: center;
+  visibility: hidden;
+  position: relative;
+  overflow: hidden;
+}
+
+.container div.six {
+  top: 10vh;
+  z-index: 1;
+}
+
+.container div.seven,
+.container div.eight {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+}
+
+.container > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20vh;
+}
+
+.one {
+  font-size: 4.5rem;
+}
+
+.one > img {
+  vertical-align: middle;
+  margin-bottom: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+.two {
+  font-size: 1.2rem;
+  font-weight: lighter;
+}
+
+.three {
+  font-size: 3rem;
+}
+
+.four .text-box {
+  width: 700px;
+  margin: 0 auto;
+  border: 3px solid #aaa;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative;
+}
+
+.text-box p {
+  margin: 0;
+  text-align: left;
+}
+
+.text-box span {
+  visibility: hidden;
+}
+
+.text-box .fake-btn {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  color: #fff;
+  background-color: rgb(21, 161, 237);
+  padding: 5px 8px;
+  border-radius: 3px;
+}
+
+.five p {
+  font-size: 2rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.idea-3 strong {
+  padding: 3px 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.five .idea-5 {
+  font-size: 4rem;
+}
+
+.idea-5 span,
+.idea-6 span,
+.wish-hbd span {
+  display: inline-block;
+}
+
+.idea-6 span {
+  font-size: 15rem;
+}
+
+.six {
+  position: relative;
+}
+
+.baloons img {
+  display: inline-block;
+  position: absolute;
+}
+
+.baloons img:nth-child(even) {
+  left: -10%;
+}
+
+.baloons img:nth-child(odd) {
+  right: -10%;
+}
+
+.baloons img:nth-child(3n + 0) {
+  left: 30%;
+}
+
+.eight svg {
+  width: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.eight svg:nth-child(1) {
+  top: 7vh;
+  left: 5vw;
+  fill: #bd6ecf;
+}
+
+.eight svg:nth-child(2) {
+  top: 23vh;
+  left: 35vw;
+  fill: #7dd175;
+}
+
+.eight svg:nth-child(3) {
+  top: 33vh;
+  left: 23vw;
+  fill: #349d8b;
+}
+
+.eight svg:nth-child(4) {
+  top: 43vh;
+  left: 57vw;
+  fill: #347a9d;
+}
+
+.eight svg:nth-child(5) {
+  top: 68vh;
+  left: 7vw;
+  fill: #c66053;
+}
+
+.eight svg:nth-child(6) {
+  top: 42vh;
+  left: 77vw;
+  fill: #bfaa40;
+}
+
+.eight svg:nth-child(7) {
+  top: 68vh;
+  left: 83vw;
+  fill: #e3bae8;
+}
+
+.eight svg:nth-child(8) {
+  top: 86vh;
+  left: 37vw;
+  fill: #8762cb;
+}
+
+.eight svg:nth-child(9) {
+  top: 94vh;
+  left: 87vw;
+  fill: #9a90da;
+}
+
+.nine p {
+  font-size: 2rem;
+  font-weight: lighter;
+}
+.nine {
+  margin-bottom: 4em;
+  margin-top: -80px; 
+}
+
+.birthday-sign-ballons {
+  font-size: 4.5rem;
+  margin-top: 3em;
+}
+
+#replay {
+  z-index: 3;
+  cursor: pointer;
+}
+
+/* Media Queries */
+
+
+@media screen and (max-width: 500px) {
+  .container {
+    width: 90%;
+  }
+
+  .four .text-box {
+    width: 90%;
+  }
+
+  .text-box .fake-btn {
+    right: 5px;
+    bottom: -38px;
+  }
+
+  .idea-5 span {
+    display: block;
+  }
+
+  .idea-6 span {
+    font-size: 10rem;
+  }
+
+  .six .hat {
+    width: 50px;
+    top: -20px;
+  }
+
+  .wish-hbd {
+    font-size: 2.2em;
+  }
+
+  .wish h5 {
+    font-size: 1.4rem;
+  }
+
+  .nine p {
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+}
+
+
+/* BIRTHDAY CARD STYLES */
+
+.birthdayCard {
+  position: fixed;
+  left: 45%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 350px; /* You may adjust this width as needed */
+  height: 450px; /* You may adjust this height as needed */
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform: perspective(2500px);
+  perspective: 1000px;
+  margin: 0 auto; /* This will center the card horizontally */
+}
+
+
+
+.birthdayCard:hover .cardFront {
+  transform: rotateY(-160deg);
+}
+
+.cardFront {
+  position: relative;
+  background-color: #fff;
+  width: 250px;
+  height: 350px;
+  overflow: hidden;
+  transform-origin: left;
+  transition: transform 0.6s;
+}
+
+.happy {
+  font-family: Tahoma, sans-serif;
+  text-align: center;
+  margin: 30px;
+  background-image: linear-gradient(120deg, #ffd856 0%, #f98c6e 100%);
+  transition: 0.1s;
+}
+
+.balloons {
+  position: absolute;
+}
+
+.balloon-1,
+.balloon-2,
+.balloon-3,
+.balloon-4 {
+  position: absolute;
+  width: 85px;
+  height: 95px;
+  border-radius: 50%;
+}
+
+.balloon-1 {
+  background-color: #f27272;
+  left: -10px;
+  top: 50px;
+}
+
+.balloon-2 {
+  background-color: #78b555;
+  left: 50px;
+  top: 20px;
+}
+
+.balloon-3 {
+  background-color: #f0d354;
+  left: 110px;
+  top: 50px;
+}
+
+.balloon-4 {
+  background-color: #0c8999;
+  left: 170px;
+  top: 50px;
+}
+
+.balloon-1::before,
+.balloon-2::before,
+.balloon-3::before,
+.balloon-4::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 155px;
+  background-color: #ffc848;
+  top: 95px;
+  left: 43px;
+}
+
+.balloon-1::after,
+.balloon-2::after,
+.balloon-3::after,
+.balloon-4::after {
+  content: "";
+  position: absolute;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  top: 94px;
+  left: 37px;
+}
+
+.balloon-1::after {
+  border-bottom: 10px solid #ff3e6b;
+}
+
+.balloon-2::after {
+  border-bottom: 10px solid #04b183;
+}
+
+.balloon-3::after {
+  border-bottom: 10px solid #ffc94c;
+}
+
+.balloon-4::after {
+  border-bottom: 10px solid #13a9bd;
+}
+
+.cardInside {
+  position: absolute;
+  background-color: #fff;
+  width: 250px;
+  height: 350px;
+  z-index: -1;
+  left: 0;
+  top: 0;
+}
+
+.card-text-name {
+  position: absolute;
+  left: 150px;
+  top: 230px;
+  color:#1a1a1a;
+}
+ 
+.card-text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 30px;
+  color: #1a1a1a;
+}
+.card-text.card-text-name {
+  font-size: 0.5em;
+}
+
+
+.back {
+  font-family: Tahoma, sans-serif;
+  color: #1a1a1a;
+  text-align: center;
+  margin: 30px;
+  outline-color: #1a1a1a;
+  outline-style: dotted;
+}
