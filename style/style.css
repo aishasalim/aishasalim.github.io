@@ -417,6 +417,11 @@ body {
     font-size: 1.5rem;
     font-weight: lighter;
   }
+  
+  .nine {
+    margin-top: 90px; 
+  }
+  
   .birthdayCard {
     margin: 0; /* Remove the margin */
     width: 100px;
