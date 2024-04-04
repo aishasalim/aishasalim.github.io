@@ -292,7 +292,7 @@ body {
   height: 350px;
   overflow: hidden;
   transform-origin: left;
-  transition: transform 0.6s;
+  transition: transform 0.6s ease;
 }
 
 .happy {
