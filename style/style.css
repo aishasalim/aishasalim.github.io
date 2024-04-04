@@ -279,8 +279,9 @@ body {
 }
 
 
-
-.birthdayCard:hover .cardFront {
+.birthdayCard:hover .cardFront, 
+.birthdayCard:active .cardFront, 
+.birthdayCard:focus .cardFront {
   transform: rotateY(-160deg);
 }
 
