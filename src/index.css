@@ -1,0 +1,50 @@
+:root {
+
+  --color-focus-outline: -webkit-focus-ring-color;
+  --color-button-border: transparent;
+
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+
+  color-scheme: light dark;
+  color: #332e2e;
+  background-color: #fff7f3;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+a {
+  color: #332e2e;
+  font-weight: 500;
+  text-decoration: inherit;
+  width: inherit;
+}
+
+body {
+  margin: 0;
+  place-items: center;
+  overflow-y: auto;
+  min-width: 400px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
