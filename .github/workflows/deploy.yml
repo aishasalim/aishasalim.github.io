@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -28,7 +28,10 @@ jobs:
         run: |
           cd dist
           git init
-          git checkout -b gh-pages
-          git add -A
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add .
           git commit -m 'Deploy'
-          git push -f https://github.com/aishasalim/aishasalim.github.io.git gh-pages
+          git push -f https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/aishasalim/aishasalim.github.io.git gh-pages
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
