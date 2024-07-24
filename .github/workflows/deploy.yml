@@ -32,6 +32,6 @@ jobs:
           git config user.email 'github-actions@github.com'
           git add .
           git commit -m 'Deploy'
-          git push -f https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/aishasalim/aishasalim.github.io.git gh-pages
+          git push -f https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/aishasalim/aishasalim.github.io.git master:gh-pages
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
