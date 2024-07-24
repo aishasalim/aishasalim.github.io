@@ -34,10 +34,20 @@ const ContactForm = () => {
         },
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log('Email sent successfully:', result);
-        // Handle success
+        setShowPopup(true);
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
       })
       .catch((error) => {
         console.error('Email send error:', error);
@@ -109,14 +119,14 @@ const ContactForm = () => {
           </ul>
           <button type="submit" className="email-button w-button">Send Email</button>
         </form>
-         {showPopup && ( 
+        {showPopup && ( 
           <div className="popup-backdrop">
             <div className="popup">
               <p>Your message has been sent!</p>
               <button onClick={handleClosePopup}>OK!</button>
             </div>
           </div>
-         )}
+        )}
       </div>
     </div>
   );
