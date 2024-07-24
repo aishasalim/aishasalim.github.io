@@ -17,18 +17,31 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    emailjs.sendForm('service_vz3gqvm', 'template_2hnobyv', e.target, 'RR6ECD9KTmFySUbpu')
-      .then(() => {
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
-        setShowPopup(true);
+  
+    fetch('https://cors-anywhere.herokuapp.com/https://api.emailjs.com/api/v1.0/email/send-form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        service_id: 'service_vz3gqvm',
+        template_id: 'template_2hnobyv',
+        user_id: 'RR6ECD9KTmFySUbpu',
+        template_params: {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('Email sent successfully:', result);
+        // Handle success
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Email send error:', error);
+        // Handle error
       });
   };
 
