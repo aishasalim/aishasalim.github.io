@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import emailjs from 'emailjs-com';
 import './App.css';
 
 const ContactForm = () => {
@@ -16,39 +17,23 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    fetch('/.netlify/functions/sendEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log('Email sent successfully:', result);
-        setShowPopup(true);
+
+    emailjs.sendForm('service_vz3gqvm', 'template_2hnobyv', e.target, 'RR6ECD9KTmFySUbpu')
+      .then(() => {
         setFormData({
           name: '',
           email: '',
           message: ''
         });
+        setShowPopup(true);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Email send error:', error);
-        // Handle error
       });
   };
   
+ 
+
   const handleClosePopup = () => {
     setShowPopup(false);
   };
@@ -113,14 +98,14 @@ const ContactForm = () => {
           </ul>
           <button type="submit" className="email-button w-button">Send Email</button>
         </form>
-        {showPopup && ( 
+         {showPopup && ( 
           <div className="popup-backdrop">
             <div className="popup">
               <p>Your message has been sent!</p>
               <button onClick={handleClosePopup}>OK!</button>
             </div>
           </div>
-        )}
+         )}
       </div>
     </div>
   );
