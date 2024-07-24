@@ -18,21 +18,23 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    fetch('https://cors-anywhere.herokuapp.com/https://api.emailjs.com/api/v1.0/email/send-form', {
+    const payload = {
+      service_id: 'service_vz3gqvm',
+      template_id: 'template_2hnobyv',
+      user_id: 'RR6ECD9KTmFySUbpu',
+      template_params: {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      },
+    };
+  
+    fetch('https://your-vercel-app.vercel.app/api/cors?url=https://api.emailjs.com/api/v1.0/email/send-form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        service_id: 'service_vz3gqvm',
-        template_id: 'template_2hnobyv',
-        user_id: 'RR6ECD9KTmFySUbpu',
-        template_params: {
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        },
-      }),
+      body: JSON.stringify(payload),
     })
       .then((response) => {
         if (!response.ok) {
@@ -53,7 +55,7 @@ const ContactForm = () => {
         console.error('Email send error:', error);
         // Handle error
       });
-  };
+  };  
 
   const handleClosePopup = () => {
     setShowPopup(false);
