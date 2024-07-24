@@ -18,30 +18,18 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    const payload = {
-      service_id: 'service_vz3gqvm',
-      template_id: 'template_2hnobyv',
-      user_id: 'RR6ECD9KTmFySUbpu',
-      template_params: {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      },
-    };
-  
-    fetch('https://your-vercel-app.vercel.app/api/cors?url=https://api.emailjs.com/api/v1.0/email/send-form', {
+    fetch('/.netlify/functions/sendEmail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      }),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((result) => {
         console.log('Email sent successfully:', result);
         setShowPopup(true);
