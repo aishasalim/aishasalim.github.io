@@ -34,5 +34,5 @@ cd -
 
 # Push the deploy.sh script to main branch
 git add deploy.sh
-git commit -m "Add deploy.sh script"
+git commit -m "Update deploy.sh script"
 git push origin main
