@@ -4,8 +4,8 @@ import githubicon from "./assets/github.svg";
 import linkedinicon from "./assets/linkedin.svg";
 import emailicon from "./assets/email.svg";
 import selfimg from "./assets/self-img.png";
-import girllobby from "./assets/girl-loby.png";
 import ContactForm from "./ContactForm";
+import Projects from "./Projects";
 
 const App = () => {
   const [headerText, setHeaderText] = useState('');
@@ -110,33 +110,12 @@ const App = () => {
         <div className="aboutme-grid">
           <div className="aboutme-box border">2+ years of experience</div>
           <div className="aboutme-box border">4.0 GPA <br/> honor student</div>
-          <div className="aboutme-box border">Attended 15+ workshops on WEB/IOS development</div>
+          <div className="aboutme-box border">15+ workshops on WEB/IOS development</div>
           <div className="aboutme-box border">Solved 50+ LeetCode problems</div>
         </div>
     </div>
 
-    <div id="projects" className="projects-section">
-      <h2>My recent projects</h2>
-
-      <div className="projects-container">
-        <div className="card">
-          <img
-            sizes="(max-width: 479px) 100vw, (max-width: 767px) 85vw, (max-width: 991px) 350px, (max-width: 1439px) 270px, (max-width: 1919px) 320px, 420px"
-            alt=""
-            width="350px"
-            src={girllobby}
-          />
-          <div class="card-content">
-            <h3>Girl lobby forum site</h3>
-            <div className="style-line"></div>
-            <p>
-              Forum application, using React.js and Supabase API for both
-              backend and frontend operations.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Projects />
 
     <ContactForm />
 

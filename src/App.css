@@ -268,9 +268,18 @@ textarea {
 }
 
 .card-content p {
-  margin-top: 1.5em;
-  font-size: 1.2em;
   font-weight: 700;
+}
+.portfolio-link {
+  font-size: 0.9em;
+  color: #fff7f3;
+  margin: 0;
+  text-decoration: none;
+}
+.link-container {
+  margin-left: 20px;
+  display: flex;
+  gap: 50px; 
 }
 
 .style-line {
@@ -286,6 +295,9 @@ textarea {
 
 .card:hover .style-line {
   width: 75px;
+}
+.card:hover .portfolio-link {
+  color: #332e2e;
 }
 
 .aboutme-section{
