@@ -17,7 +17,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    fetch('./netlify/functions/sendEmail', {
+    fetch('/.netlify/functions/sendEmail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,12 @@ const ContactForm = () => {
         message: formData.message,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log('Email sent successfully:', result);
         setShowPopup(true);
@@ -42,8 +47,8 @@ const ContactForm = () => {
         console.error('Email send error:', error);
         // Handle error
       });
-  };  
-
+  };
+  
   const handleClosePopup = () => {
     setShowPopup(false);
   };
