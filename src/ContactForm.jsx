@@ -8,6 +8,7 @@ const ContactForm = () => {
     email: '',
     message: ''
   });
+  const [showPopup, setShowPopup] = useState(false);
   const formRef = useRef(null);
 
   const handleChange = (e) => {
@@ -17,8 +18,22 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_vz3gqvm', 'template_2hnobyv', e.target, 'RR6ECD9KTmFySUbpu');
-    e.target.reset();
+    emailjs.sendForm('service_vz3gqvm', 'template_2hnobyv', e.target, 'RR6ECD9KTmFySUbpu')
+      .then(() => {
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+        setShowPopup(true);
+      })
+      .catch(error => {
+        console.error('Email send error:', error);
+      });
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
   useEffect(() => {
@@ -81,6 +96,14 @@ const ContactForm = () => {
           </ul>
           <button type="submit" className="email-button w-button">Send Email</button>
         </form>
+         {showPopup && ( 
+          <div className="popup-backdrop">
+            <div className="popup">
+              <p>Your message has been sent!</p>
+              <button onClick={handleClosePopup}>OK!</button>
+            </div>
+          </div>
+         )}
       </div>
     </div>
   );
