@@ -419,4 +419,5 @@ textarea {
 @media (max-width: 750px) {
   .aboutme-section {
     display: block;
+    margin: 4em 0;
   } }

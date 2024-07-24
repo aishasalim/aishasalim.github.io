@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import "./App.css"; // Ensure to create an appropriate CSS file or import styles as needed
-import githubicon from "./aishasalim.github.io/assets/github.svg";
-import linkedinicon from "./aishasalim.github.io/assets/linkedin.svg";
-import emailicon from "./aishasalim.github.io/assets/email.svg";
-import selfimg from "./aishasalim.github.io/assets/self-img.png";
-import girllobby from "./aishasalim.github.io/assets/girl-loby.png";
+import githubicon from "./assets/github.svg";
+import linkedinicon from "./assets/linkedin.svg";
+import emailicon from "./assets/email.svg";
+import selfimg from "./assets/self-img.png";
+import girllobby from "./assets/girl-loby.png";
 import ContactForm from "./ContactForm";
 
 const App = () => {
