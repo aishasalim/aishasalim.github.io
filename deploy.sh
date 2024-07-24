@@ -1,4 +1,10 @@
 # Build the project
+#!/usr/bin/env sh
+
+# abort on errors
+set -e
+
+# Build the project
 npm run build
 
 # Navigate into the build output directory
@@ -15,7 +21,7 @@ git checkout -B main
 git add -A
 git commit -m 'deploy'
 
-# Add the remote repository (replace with your actual GitHub repository URL)
+# Add the remote repository (replace with your actual GitHub repository URL if not already set)
 git remote add origin https://github.com/aishasalim/aishasalim.github.io.git
 
 # Force push to the gh-pages branch
@@ -23,3 +29,4 @@ git push -f origin main:gh-pages
 
 # Navigate back to the project root
 cd -
+
