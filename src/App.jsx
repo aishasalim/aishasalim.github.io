@@ -104,7 +104,7 @@ const App = () => {
           <h2>About Me</h2>
           <p>I'm Aisha, a passionate developer from Houston. I enjoy creating WEB and IOS applications. I have experience with React, Node.js, Tailwind and Swift.</p>
           <div className="resume-button-container">
-            <a className="resume-button" href="https://drive.google.com/file/d/1P-vAKnCKd_GO1NQ48hno2ptQ-S-Kgi7_/view?usp=drive_link" target="_blank" rel="noopener noreferrer">See My Resume</a>
+            <a className="resume-button" href="https://drive.google.com/file/d/1ggP2ti4LYCgZbsDnE6dR7PWTJVvFE1vs/view?usp=drive_link" target="_blank" rel="noopener noreferrer">See My Resume</a>
           </div>
         </div>
         <div className="aboutme-grid">
