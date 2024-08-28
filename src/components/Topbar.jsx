@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import MenuSvg from './MenuSvg';
 import { Sun } from 'lucide-react';
 
-const Topbar = () => {
+const Topbar = ({handleClick, openNavigation, toggleNavigation}) => {
   const navigation = [
-    { id: 1, title: 'Home', url: '/', onlyMobile: false },
+    { id: 1, title: 'Home', url: '#hero', onlyMobile: false },
     { id: 2, title: 'About', url: '#about', onlyMobile: false },
     { id: 3, title: 'Portfolio', url: '#portfolio', onlyMobile: false },
     { id: 5, title: 'Experience', url: '#experience', onlyMobile: false },
@@ -12,13 +12,7 @@ const Topbar = () => {
     { id: 7, title: 'Github', url: 'https://github.com/aishasalim', onlyMobile: false },
   ];
 
-  const [openNavigation, setOpenNavigation] = useState(false);
   const [isLightMode, setIsLightMode] = useState(false);
-
-  // Toggle the navigation menu
-  const toggleNavigation = () => {
-    setOpenNavigation(!openNavigation);
-  };
 
   // Toggle between light and dark modes
   const toggleTheme = () => {
@@ -33,29 +27,6 @@ const Topbar = () => {
       document.documentElement.classList.add('dark');
     }
   }, [isLightMode]);
-
-  // Handle link clicks with smooth scrolling and page refresh for Home
-  const handleClick = (e, url) => {
-    e.preventDefault();
-    if (openNavigation) {
-      toggleNavigation();
-    }
-    
-    // Check if the URL is external
-    if (url.startsWith('http')) {
-      window.open(url, '_blank'); // Open the external link in a new tab
-    } else if (url === '/') {
-      window.history.pushState(null, '', '/');
-      window.location.reload(); // Refresh the page
-    } else {
-      const targetSection = document.querySelector(url);
-      if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -97,6 +68,7 @@ const Topbar = () => {
 
           <a
             href='#contact'
+            onClick={(e) => handleClick(e, '#contact')}
             className="flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-800 bg-transparent border px-4 py-2 rounded-2xl hover:bg-opacity-20 transition-colors duration-200"
           >
             Send Message
