@@ -7,7 +7,7 @@ import {Github, ExternalLink} from 'lucide-react';
 const projectData = [
   {
     title: "RateMyProfessorAI",
-    description: "RateMyProfessorAI is an ultimate guide to navigating the world of professors. Chatbot can read and summarize links from Rate My Professor, recommend other professors, and evaluate which professor fits best with your schedule. 🧠📚",
+    description: "RateMyProfessorAI is an ultimate guide to navigating the world of professors. Chatbot can read and summarize links from Rate My Professor, recommend other professors, and evaluate which professor fits best with your schedule.",
     imgSrc: ratemyprofessor,
     imgAlt: "RateMyProfessorAI",
     githubLink: "https://github.com/aishasalim/rmp-assistant",
