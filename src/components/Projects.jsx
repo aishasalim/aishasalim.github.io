@@ -7,7 +7,7 @@ import {Github, ExternalLink} from 'lucide-react';
 const projectData = [
   {
     title: "RateMyProfessorAI",
-    description: "SaaS platform that generates personalized flashcards on any topic using OpenAI. Integrated Stripe API to implement custom pricing plans and a secure payment gateway.",
+    description: "RateMyProfessorAI is an ultimate guide to navigating the world of professors. Chatbot can read and summarize links from Rate My Professor, recommend other professors, and evaluate which professor fits best with your schedule. 🧠📚",
     imgSrc: ratemyprofessor,
     imgAlt: "RateMyProfessorAI",
     githubLink: "https://github.com/aishasalim/rmp-assistant",
@@ -21,7 +21,7 @@ const projectData = [
     imgAlt: "CoolCardsAI",
     githubLink: "https://github.com/aishasalim/flashcard-saas",
     hostingLink: "https://coolcards-ai.vercel.app/",
-    skills: ["NextJS", "Clerk", "Firebase", "Clerk", "openAI", "StripeAPI", "MUI"]
+    skills: ["NextJS", "Clerk", "Firebase", "openAI", "StripeAPI", "MUI"]
   },
   {
     title: "Girl lobby forum site",
