@@ -2,13 +2,14 @@ import React from 'react';
 import girllobby from "../assets/girl-loby.png";
 import coolCards from "../assets/coolcardsphoto.png";
 import ratemyprofessor from "../assets/ratemyprofessor.png";
+import pantrytracker from "../assets/pantrytracker.png";
 import {Github, ExternalLink} from 'lucide-react';
 
 const projectData = [
   {
     title: "Pantry Manager",
     description: "Pantry Manager is smart pantry operated by AI support chat. AI can suggest recipes based on ingredients stored, and store them.",
-    imgSrc: ratemyprofessor,
+    imgSrc: pantrytracker,
     imgAlt: "Pantry Manager",
     githubLink: "https://github.com/aishasalim/pantry-tracker",
     hostingLink: "https://pantry-tracker-kappa.vercel.app/",
