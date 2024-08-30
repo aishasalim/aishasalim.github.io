@@ -60,14 +60,14 @@ const Projects = () => {
             <h3 className="text-2xl font-bold mb-2">Project {index + 1}: {project.title}</h3>
 
             <div className="flex mb-4">
-              <a href={project.githubLink} className="text-default dark:text-dark flex items-center group">
+              <a href={project.githubLink} className="text-default dark:text-dark flex items-center group" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1" /> 
                 View Github 
                 <span className="ml-2 transition-transform transform group-hover:translate-x-3 duration-200">&gt;</span>
               </a>
             </div>
             <div className="flex mb-4">
-              <a href={project.hostingLink} className="text-default dark:text-dark flex items-center group">
+              <a href={project.hostingLink} className="text-default dark:text-dark flex items-center group" target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1" /> 
                 View Live 
                 <span className="ml-2 transition-transform transform group-hover:translate-x-3 duration-200">&gt;</span>
