@@ -6,6 +6,15 @@ import {Github, ExternalLink} from 'lucide-react';
 
 const projectData = [
   {
+    title: "Pantry Manager",
+    description: "Pantry Manager is smart pantry operated by AI support chat. AI can suggest recipes based on ingredients stored, and store them.",
+    imgSrc: ratemyprofessor,
+    imgAlt: "Pantry Manager",
+    githubLink: "https://github.com/aishasalim/pantry-tracker",
+    hostingLink: "https://pantry-tracker-kappa.vercel.app/",
+    skills: ["NextJS", "Javascript", "Firebase", "TogetherAI", "TailwindCSS", "Clerk", "ChartJS"]
+  },
+  {
     title: "RateMyProfessorAI",
     description: "RateMyProfessorAI is an ultimate guide to navigating the world of professors. Chatbot can read and summarize links from Rate My Professor, recommend other professors, and evaluate which professor fits best with your schedule.",
     imgSrc: ratemyprofessor,
