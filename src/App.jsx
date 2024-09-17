@@ -27,7 +27,7 @@ const App = () => {
     }
   ];
 
-  const googlehref = "https://drive.google.com/file/d/1ggP2ti4LYCgZbsDnE6dR7PWTJVvFE1vs/view?usp=drive_link";
+  const googlehref = "https://drive.google.com/file/d/1ggP2ti4LYCgZbsDnE6dR7PWTJVvFE1vs/view?usp=sharing";
 
   const [openNavigation, setOpenNavigation] = useState(false);
 

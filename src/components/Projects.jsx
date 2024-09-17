@@ -3,17 +3,18 @@ import girllobby from "../assets/girl-loby.png";
 import coolCards from "../assets/coolcardsphoto.png";
 import ratemyprofessor from "../assets/ratemyprofessor.png";
 import pantrytracker from "../assets/pantrytracker.png";
+import timemesh from "../assets/timemesh.png";
 import {Github, ExternalLink} from 'lucide-react';
 
 const projectData = [
   {
-    title: "Pantry Manager",
-    description: "Pantry Manager is smart pantry operated by AI support chat. AI can suggest recipes based on ingredients stored, and store them.",
-    imgSrc: pantrytracker,
-    imgAlt: "Pantry Manager",
-    githubLink: "https://github.com/aishasalim/pantry-tracker",
-    hostingLink: "https://pantry-tracker-kappa.vercel.app/",
-    skills: ["NextJS", "Javascript", "Firebase", "TogetherAI", "TailwindCSS", "Clerk", "ChartJS"]
+    title: "TimeMesh",
+    description: "Synchronized calendars SaaS application of 12,000+ lines of code with in a 100,000+ LinkedIn traffic surge and 500+ users within 2 weeks of launch.",
+    imgSrc: timemesh,
+    imgAlt: "TimeMesh",
+    githubLink: "https://github.com/jason-huang-dev/headstarter",
+    hostingLink: "https://timemesh.vercel.app/",
+    skills: ["Django", "ReactJS", "TailwindCSS", "PostgreSQL", "Google OAuth", "OpenRouterAI", "Docker", "Vercel CI/CD"]
   },
   {
     title: "RateMyProfessorAI",
@@ -32,6 +33,15 @@ const projectData = [
     githubLink: "https://github.com/aishasalim/flashcard-saas",
     hostingLink: "https://coolcards-ai.vercel.app/",
     skills: ["NextJS", "Clerk", "Firebase", "openAI", "StripeAPI", "MUI"]
+  },
+  {
+    title: "Pantry Manager",
+    description: "Pantry Manager is smart pantry operated by AI support chat. AI can suggest recipes based on ingredients stored, and store them.",
+    imgSrc: pantrytracker,
+    imgAlt: "Pantry Manager",
+    githubLink: "https://github.com/aishasalim/pantry-tracker",
+    hostingLink: "https://pantry-tracker-kappa.vercel.app/",
+    skills: ["NextJS", "Javascript", "Firebase", "TogetherAI", "TailwindCSS", "Clerk", "ChartJS"]
   },
   {
     title: "Girl lobby forum site",
