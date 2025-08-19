@@ -141,7 +141,7 @@ function TabsList({ className = "", children }) {
   return (
     <div
       role="tablist"
-      className={`inline-flex items-center rounded-xl border border-gray-200 dark:border-gray-700 p-1 bg-white/70 dark:bg-gray-800/70 backdrop-blur ${className}`}
+      className={`inline-flex items-center rounded-xl border border-gray-200 p-1 bg-white/70 backdrop-blur ${className}`}
     >
       {children}
     </div>
@@ -159,8 +159,8 @@ function TabsTrigger({ value, className = "", children }) {
       className={[
         "px-4 py-2 rounded-lg text-sm md:text-base transition-all",
         active
-          ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 shadow"
-          : "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+          ? "bg-gray-900 text-white shadow"
+          : "text-gray-600 hover:text-gray-900",
         className,
       ].join(" ")}
     >
@@ -357,7 +357,7 @@ const ExperienceProjects = () => {
       ref={(el) => observeElement(el, "section-root")}
       className={[
         "pb-10 pt-[6em] mt-5 max-w-5xl mx-auto transition-all duration-700",
-        "text-gray-800 dark:text-gray-100", // ensures readable text
+        "text-gray-800 ", // ensures readable text
         visibleElements.has("section-root")
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-6",
@@ -399,7 +399,7 @@ const ExperienceProjects = () => {
           <TabsContent value="experience" className="mt-0">
             <div className="max-w-2xl mx-auto">
               <div className="relative">
-                <div className="absolute top-[1em] bottom-[15em] left-[3em] w-[2px] bg-gray-300 dark:bg-gray-700 md:block hidden" />
+                <div className="absolute top-[1em] bottom-[15em] left-[3em] w-[2px] bg-gray-300 md:block hidden" />
                 {experienceData.map((experience, index) => (
                   <div
                     key={index}
@@ -411,8 +411,8 @@ const ExperienceProjects = () => {
                     }`}
                     style={{ transitionDelay: `${index * 100 + 300}ms` }}
                   >
-                    <div className="mr-4 flex-shrink-0 md:block hidden m-3 bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700">
-                      <div className="bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700">
+                    <div className="mr-4 flex-shrink-0 md:block hidden m-3 bg-white rounded-full border border-gray-200">
+                      <div className="bg-white rounded-full border border-gray-200 ">
                         <experience.icon
                           aria-hidden
                           className="h-10 w-10 p-2"
@@ -420,7 +420,7 @@ const ExperienceProjects = () => {
                       </div>
                     </div>
 
-                    <div className="p-6 pl-3 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 flex-grow will-change-transform hover:shadow-lg transition-shadow">
+                    <div className="p-6 pl-3 bg-white rounded-lg shadow-md border border-gray-200 flex-grow will-change-transform hover:shadow-lg transition-shadow">
                       <div className="flex">
                         <div className="flex-shrink-0 mr-4 md:hidden">
                           <experience.icon aria-hidden className="h-10 w-10" />
@@ -435,14 +435,14 @@ const ExperienceProjects = () => {
                           <p className="text-sm text-gray-400">
                             {experience.date}
                           </p>
-                          <p className="mt-4 text-gray-700 dark:text-gray-300">
+                          <p className="mt-4 text-gray-700">
                             {experience.description}
                           </p>
                           <div className="mt-2 flex flex-wrap">
                             {experience.tags.map((tag, tagIndex) => (
                               <span
                                 key={tagIndex}
-                                className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-1 text-sm mr-2 mb-2"
+                                className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 text-gray-800 rounded-full px-4 py-1 text-sm mr-2 mb-2"
                               >
                                 {tag}
                               </span>
@@ -497,7 +497,7 @@ const ExperienceProjects = () => {
                     <div className="flex mb-4">
                       <a
                         href={project.githubLink}
-                        className="text-default dark:text-dark flex items-center group"
+                        className="text-default flex items-center group"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -511,7 +511,7 @@ const ExperienceProjects = () => {
                     <div className="flex mb-4">
                       <a
                         href={project.hostingLink}
-                        className="text-default dark:text-dark flex items-center group"
+                        className="text-default flex items-center group"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -522,7 +522,7 @@ const ExperienceProjects = () => {
                         </span>
                       </a>
                     </div>
-                    <div className="mb-4 dark:text-gray-300">
+                    <div className="mb-4">
                       <h4 className="font-semibold">Description:</h4>
                       <p>{project.description}</p>
                     </div>
@@ -530,7 +530,7 @@ const ExperienceProjects = () => {
                       {project.skills.map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-1 text-sm mr-2 mb-2"
+                          className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 text-gray-800 rounded-full px-4 py-1 text-sm mr-2 mb-2"
                         >
                           {skill}
                         </span>

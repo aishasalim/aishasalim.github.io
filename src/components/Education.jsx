@@ -107,7 +107,7 @@ const Education = () => {
         visible.has("edu-section")
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-6",
-        "text-gray-800 dark:text-gray-100",
+        "text-gray-800",
         "[@media(prefers-reduced-motion:reduce)]:transition-none",
       ].join(" ")}
     >
@@ -133,8 +133,7 @@ const Education = () => {
             className={[
               "relative overflow-hidden p-6 rounded-[28px] border border-white/60 bg-white/55",
               "shadow-[0_1px_0_0_rgba(255,255,255,0.7)_inset,0_1px_2px_rgba(15,23,42,0.03),0_12px_40px_-12px_rgba(15,23,42,0.18)]",
-              "supports-[backdrop-filter]:backdrop-blur-2xl dark:border-white/10 dark:bg-white/5",
-              "dark:shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset,0_10px_30px_-12px_rgba(0,0,0,0.5)]",
+              "supports-[backdrop-filter]:backdrop-blur-2xl ",
               "transition-all duration-700",
               visible.has(`edu-card-${i}`)
                 ? "opacity-100 translate-y-0"
@@ -158,20 +157,16 @@ const Education = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                <h3 className="text-2xl font-semibold text-gray-800">
                   {education.degree}
                 </h3>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
-                  {education.school}
-                </p>
+                <p className="text-lg text-gray-600">{education.school}</p>
               </div>
-              <p className="mb-6 text-lg text-gray-500 dark:text-gray-400">
-                {education.date}
-              </p>
+              <p className="mb-6 text-lg text-gray-500">{education.date}</p>
             </div>
 
             {education.details && (
-              <ul className="mt-4 list-disc list-inside text-gray-700 dark:text-gray-300">
+              <ul className="mt-4 list-disc list-inside text-gray-700 ">
                 {education.details.map((detail, detailIndex) => (
                   <li key={detailIndex}>{detail}</li>
                 ))}
