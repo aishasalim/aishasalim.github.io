@@ -1,25 +1,15 @@
 module.exports = {
-  darkMode: 'class', // Enable class-based dark mode
+  // darkMode: 'class',
   content: [
     './index.html',
-    './src/**/*.{js,jsx,ts,tsx}', // Adjust paths as needed
+    './src/**/*.{js,jsx,ts,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#f7fafc',
-        dark: '#0d1b2a',
+        surface: '#f7fafc',        // light bg
+        foreground: '#0d1b2a',     // light text
       },
-      backgroundColor: theme => ({
-        ...theme('colors'),
-        default: '#f7fafc',  // Light mode background
-        dark: '#0d1b2a',    // Dark mode background
-      }),
-      textColor: theme => ({
-        ...theme('colors'),
-        default: '#0d1b2a',  // Light mode text color
-        dark: '#f7fafc',    // Dark mode text color
-      }),
     },
   },
   plugins: [],

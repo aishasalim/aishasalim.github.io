@@ -1,85 +1,127 @@
-import React, { useState, useEffect } from 'react';
-import MenuSvg from './MenuSvg';
-import { Sun } from 'lucide-react';
+import React, { useEffect } from "react";
+import MenuSvg from "./MenuSvg";
 
-const Topbar = ({handleClick, openNavigation, toggleNavigation}) => {
+const Topbar = ({ handleClick, openNavigation, toggleNavigation }) => {
   const navigation = [
-    { id: 1, title: 'Home', url: '#hero', onlyMobile: false },
-    { id: 2, title: 'About', url: '#about', onlyMobile: false },
-    { id: 3, title: 'Portfolio', url: '#portfolio', onlyMobile: false },
-    { id: 5, title: 'Experience', url: '#experience', onlyMobile: false },
-    // { id: 6, title: 'Blog', url: '#blog', onlyMobile: false },
-    { id: 7, title: 'Github', url: 'https://github.com/aishasalim', onlyMobile: false },
+    { id: 1, title: "Home", url: "#hero" },
+    { id: 2, title: "About", url: "#about" },
+    { id: 3, title: "Portfolio", url: "#portfolio" },
+    { id: 5, title: "Experience", url: "#experience" },
+    { id: 7, title: "Github", url: "https://github.com/aishasalim" },
   ];
 
-  const [isLightMode, setIsLightMode] = useState(false);
-
-  // Toggle between light and dark modes
-  const toggleTheme = () => {
-    setIsLightMode(!isLightMode);
-  };
-
-  // Apply theme class to the html element
+  // Lock scroll only for mobile overlay
   useEffect(() => {
-    if (isLightMode) {
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-    }
-  }, [isLightMode]);
+    const prev = document.body.style.overflow;
+    if (openNavigation) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = prev || "";
+    return () => { document.body.style.overflow = prev || ""; };
+  }, [openNavigation]);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
-      {/* Inner container for centering and padding */}
-      <div className="bg-default dark:bg-dark flex items-center mb-2 py-2 justify-between px-5 lg:px-7.5 xl:px-10 max-lg:pt-4">
-        {/* Navigation links container */}
+    <header className="sticky top-0 z-50 relative flex items-center py-3 lg:py-[9px]">
+      {/* header row */}
+      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between px-5 md:px-8 lg:justify-start">
+        {/* Brand */}
+        <a href="/" className="mr-3 inline-flex shrink-0 items-center lg:mr-7">
+          <span className="text-lg md:text-xl font-semibold tracking-tight text-gray-900">
+            Aisha
+          </span>
+          <span className="sr-only">Home</span>
+        </a>
+
+        {/* Desktop nav (inline) */}
+        <nav className="hidden md:flex md:mx-auto">
+          {navigation.map((item) => (
+            <a
+              key={item.id}
+              href={item.url}
+              onClick={(e) => handleClick(e, item.url)}
+              className="px-4 py-2 text-sm font-medium tracking-tight text-gray-900 hover:text-indigo-500"
+            >
+              {item.title}
+            </a>
+          ))}
+        </nav>
+
+        {/* Desktop right action */}
+        <div className="hidden md:flex grow items-center justify-end gap-x-3.5">
+          <a
+            href="#contact"
+            onClick={(e) => handleClick(e, "#contact")}
+            className="inline-flex h-8 items-center justify-center rounded-[6px] px-4 text-[0.8125rem]
+                       font-medium tracking-tight text-white
+                       bg-[radial-gradient(84.32%_100%_at_49.77%_0%,#2E3038_46.14%,#1C1D22_100%)]
+                       hover:bg-[radial-gradient(84.32%_100%_at_49.77%_0%,#404451_46.14%,#2D2F38_100%)]"
+          >
+            Send Message
+          </a>
+        </div>
+
+        {/* Mobile: show CTA next to name only when menu open */}
+        {openNavigation && (
+          <button
+            onClick={(e) => handleClick(e, "#contact")}
+            className="md:hidden mr-auto ml-3 inline-flex h-8 items-center justify-center rounded-[6px] px-3
+                      text-[0.8125rem] font-medium tracking-tight text-white
+                      bg-[radial-gradient(84.32%_100%_at_49.77%_0%,#2E3038_46.14%,#1C1D22_100%)]
+                      hover:bg-[radial-gradient(84.32%_100%_at_49.77%_0%,#404451_46.14%,#2D2F38_100%)]
+                      transition-colors"
+          >
+            Send Message
+          </button>
+        )}
+
+
+        {/* Mobile hamburger */}
+        <div className="block md:hidden">
+          <MenuSvg toggleNavigation={toggleNavigation} openNavigation={openNavigation} />
+        </div>
+      </div>
+
+      {/* Mobile fullscreen overlay BACKDROP (below header, no clicks) */}
+      {openNavigation && (
+        <div
+          aria-hidden
+          className="fixed inset-0 z-30 md:hidden pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(145deg, rgba(232,242,255,0.98), rgba(171,196,255,0.98))",
+            backdropFilter: "blur(12px)",
+          }}
+        />
+      )}
+
+      {/* Mobile fullscreen MENU (below header, above backdrop) */}
+      {openNavigation && (
         <nav
-          className={`${
-            openNavigation ? "flex bg-default dark:bg-dark" : "hidden"
-          } fixed top-[4em] left-0 right-0 bottom-0 lg:static lg:flex lg:mx-auto`}
+          className="fixed inset-x-0 top-16 bottom-0 z-40 md:hidden"
+          role="dialog"
+          aria-modal="true"
         >
-          <div className="relative py-4 z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
+          <div className="m-auto flex h-full flex-col items-center justify-center p-8">
             {navigation.map((item) => (
               <a
                 key={item.id}
                 href={item.url}
                 onClick={(e) => handleClick(e, item.url)}
-                className={`block relative font-code text-md lg:text-sm uppercase transition-colors ${
-                  item.onlyMobile ? "lg:hidden" : ""
-                } px-6 py-6 md:py-8 lg:py-2.5 lg:px-4 lg:mx-1.5 lg:leading-5 xl:px-12 ${
-                  openNavigation ? "hover:underline focus:underline" : ""
-                }`}
+                className="block px-6 py-6 text-base uppercase tracking-wide text-gray-900 hover:underline"
               >
                 {item.title}
               </a>
             ))}
           </div>
         </nav>
+      )}
 
-        {/* Sun and Send Message Buttons */}
-        <div className="flex space-x-4">
-          {/* Icon with hover effect */}
-          <div
-            className='hover:bg-gray-300 dark:hover:bg-gray-800 p-3 hover:bg-opacity-20 rounded-xl transition-colors duration-200 cursor-pointer'
-            onClick={toggleTheme}
-          >
-            <Sun />
-          </div>
-
-          <a
-            href='#contact'
-            onClick={(e) => handleClick(e, '#contact')}
-            className="flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-800 bg-transparent border px-4 py-2 rounded-2xl hover:bg-opacity-20 transition-colors duration-200"
-          >
-            Send Message
-          </a>
-
-        </div>
-
-        {/* Menu SVG for toggling navigation on smaller screens */}
-        <MenuSvg toggleNavigation={toggleNavigation} openNavigation={openNavigation} />
-      </div>
-    </div>
+      {/* top haze strip */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 z-20 h-20 w-full backdrop-blur-2xl
+                   [mask-image:linear-gradient(to_bottom,black_65%,rgba(0,0,0,0.88)_75%,transparent_100%)]"
+        style={{ background: "linear-gradient(180deg, rgba(221,226,238,0.35) 0%, rgba(221,226,238,0) 100%)" }}
+      />
+    </header>
   );
 };
 
