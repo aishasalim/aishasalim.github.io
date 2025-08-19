@@ -6,6 +6,7 @@ import Hero from "./components/Hero";
 import AboutMe from "./components/AboutMe";
 import Education from "./components/Education";
 import Footer from "./components/Footer";
+import Skills from "./components/Skills";
 
 import { Github, Linkedin, Mail } from "lucide-react";
 
@@ -35,22 +36,36 @@ const App = () => {
   // Handle link clicks with smooth scrolling and page refresh for Home
   const handleClick = (e, url) => {
     e.preventDefault();
-    if (openNavigation) {
-      toggleNavigation();
+    if (openNavigation) toggleNavigation();
+
+    // External links
+    if (url.startsWith("http")) {
+      window.open(url, "_blank");
+      return;
     }
 
-    // Check if the URL is external
-    if (url.startsWith("http")) {
-      window.open(url, "_blank"); // Open the external link in a new tab
-    } else if (url === "/") {
+    // Home route refresh
+    if (url === "/") {
       window.history.pushState(null, "", "/");
-      window.location.reload(); // Refresh the page
-    } else {
-      // Select target section and scroll smoothly
-      const targetSection = document.querySelector(url);
-      if (targetSection) {
-        targetSection.scrollIntoView({ behavior: "smooth" });
+      window.location.reload();
+      return;
+    }
+
+    // In-page anchor targets (e.g. #experience, #portfolio, #about)
+    if (url.startsWith("#")) {
+      const target = document.querySelector(url);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+        history.replaceState(null, "", url);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
       }
+      return;
+    }
+
+    // Section selectors (like "#contact" already handled above) or other local selectors
+    const targetSection = document.querySelector(url);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -64,6 +79,7 @@ const App = () => {
         />
         <Hero />
         <AboutMe links={links} />
+
         <ExperienceProjects />
         <Education />
         <ContactForm />

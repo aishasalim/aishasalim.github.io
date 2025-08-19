@@ -1,4 +1,6 @@
 // src/components/ExperienceProjects.jsx
+"use client";
+
 import React, {
   createContext,
   useContext,
@@ -14,11 +16,12 @@ import pantrytracker from "../assets/pantrytracker.png";
 import timemesh from "../assets/timemesh.png";
 import braintumor from "../assets/braintumor.png";
 
+/* -------------------------- Scroll-in animation hook -------------------------- */
 const useScrollAnimation = () => {
   const [visibleElements, setVisibleElements] = useState(new Set());
   const observerRef = useRef(null);
   const elementsRef = useRef(new Map()); // id -> element
-  const queuedCheck = useRef(new Set()); // ids we scheduled a RAF check for
+  const queuedCheck = useRef(new Set()); // ids scheduled for a RAF check
 
   const markVisible = (id) => {
     if (!id) return;
@@ -44,13 +47,11 @@ const useScrollAnimation = () => {
     return r.left < vw && r.right > 0 && visibleY / height >= 0.1;
   };
 
-  // Observe + IO
   useEffect(() => {
     if (
       typeof window === "undefined" ||
       typeof IntersectionObserver === "undefined"
     ) {
-      // SSR/tests: reveal everything that registers
       setVisibleElements(new Set(["__all__"]));
       return;
     }
@@ -69,7 +70,6 @@ const useScrollAnimation = () => {
 
     observerRef.current = obs;
 
-    // Fallback checks for stuff already on screen
     const flush = () => {
       for (const [id, el] of elementsRef.current.entries()) {
         if (!visibleElements.has(id) && isInViewport(el)) markVisible(id);
@@ -80,7 +80,6 @@ const useScrollAnimation = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
-    // next tick + small delay to catch initial layout
     requestAnimationFrame(flush);
     const t = setTimeout(flush, 120);
 
@@ -90,9 +89,9 @@ const useScrollAnimation = () => {
       window.removeEventListener("resize", onScroll);
       clearTimeout(t);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // SAFE: no synchronous setState here
   const observeElement = (el, id) => {
     if (!el || !id) return;
 
@@ -102,7 +101,6 @@ const useScrollAnimation = () => {
     const obs = observerRef.current;
     if (obs) obs.observe(el);
 
-    // Schedule ONE RAF visibility check (not immediate setState)
     if (!queuedCheck.current.has(id)) {
       queuedCheck.current.add(id);
       requestAnimationFrame(() => {
@@ -176,7 +174,7 @@ function TabsContent({ value, className = "", children }) {
 }
 /* ------------------------------------------------------------------------ */
 
-// then use this:
+/* --------------------------------- Data --------------------------------- */
 const experienceData = [
   {
     title: "AI/ML Fellow – Break Through Tech AI x Skinterest Tech",
@@ -347,9 +345,29 @@ const projectData = [
   },
 ];
 
+/* -------------------------------- Component ------------------------------- */
 const ExperienceProjects = () => {
   const [tab, setTab] = useState("experience");
   const { visibleElements, observeElement } = useScrollAnimation();
+
+  // Sync tabs with URL hash and add anchors for scrolling
+  useEffect(() => {
+    const applyFromHash = () => {
+      const hash = window.location.hash;
+      if (hash === "#portfolio") setTab("portfolio");
+      else if (hash === "#experience") setTab("experience");
+    };
+    applyFromHash(); // initial
+    window.addEventListener("hashchange", applyFromHash);
+    return () => window.removeEventListener("hashchange", applyFromHash);
+  }, []);
+
+  const handleTabChange = (v) => {
+    setTab(v);
+    const targetHash = v === "portfolio" ? "#portfolio" : "#experience";
+    // Update the hash without jumping the page unexpectedly
+    history.replaceState(null, "", targetHash);
+  };
 
   return (
     <section
@@ -357,13 +375,17 @@ const ExperienceProjects = () => {
       ref={(el) => observeElement(el, "section-root")}
       className={[
         "pb-10 pt-[6em] mt-5 max-w-5xl mx-auto transition-all duration-700",
-        "text-gray-800 ", // ensures readable text
+        "text-gray-800",
+        "scroll-mt-24", // offset for sticky header
         visibleElements.has("section-root")
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-6",
         "[@media(prefers-reduced-motion:reduce)]:transition-none",
       ].join(" ")}
     >
+      {/* Always-present alias anchor so #portfolio can scroll here even when the tab is inactive */}
+      <div id="portfolio" className="relative -top-24 h-0 w-0" aria-hidden />
+
       <h2
         ref={(el) => observeElement(el, "header")}
         className={`text-4xl font-bold mb-6 text-center transition-all duration-700 ${
@@ -375,7 +397,7 @@ const ExperienceProjects = () => {
         Experience & Portfolio
       </h2>
 
-      <Tabs value={tab} onValueChange={setTab} className="w-full">
+      <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
         <div
           ref={(el) => observeElement(el, "tabs")}
           className={`flex justify-center mb-8 transition-all duration-700 delay-200 ${
@@ -386,8 +408,14 @@ const ExperienceProjects = () => {
         >
           <TabsList className="gap-1">
             <TabsTrigger value="experience">Experience</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
+            <TabsTrigger value="portfolio">Projects</TabsTrigger>
           </TabsList>
+          {/* Optional: small hash hint for accessibility */}
+          <span className="sr-only">
+            {tab === "portfolio"
+              ? "Projects tab active"
+              : "Experience tab active"}
+          </span>
         </div>
 
         {/* Re-mount panel on tab change for a quick panelIn */}
@@ -412,7 +440,7 @@ const ExperienceProjects = () => {
                     style={{ transitionDelay: `${index * 100 + 300}ms` }}
                   >
                     <div className="mr-4 flex-shrink-0 md:block hidden m-3 bg-white rounded-full border border-gray-200">
-                      <div className="bg-white rounded-full border border-gray-200 ">
+                      <div className="bg-white rounded-full border border-gray-200">
                         <experience.icon
                           aria-hidden
                           className="h-10 w-10 p-2"
@@ -458,12 +486,12 @@ const ExperienceProjects = () => {
           </TabsContent>
 
           {/* PROJECTS */}
-          <TabsContent value="projects" className="mt-0">
+          <TabsContent value="portfolio" className="mt-0">
             <div className="mx-5">
               <p
-                ref={(el) => observeElement(el, "projects-desc")}
+                ref={(el) => observeElement(el, "portfolio-desc")}
                 className={`text-center mb-10 transition-all duration-700 delay-300 ${
-                  visibleElements.has("projects-desc")
+                  visibleElements.has("portfolio-desc")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}

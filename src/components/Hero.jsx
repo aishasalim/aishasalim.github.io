@@ -94,6 +94,7 @@ const Hero = ({ title, subtitle, className = "" }) => {
 
   return (
     <section
+      id="hero"
       className={`relative -mt-12 overflow-x-hidden overflow-y-visible ${className}`}
     >
       {/* ---- Background: single gradient + grain (no dark mode) ---- */}
@@ -163,7 +164,7 @@ const Hero = ({ title, subtitle, className = "" }) => {
               className="
               relative z-10 flex flex-col
               font-semibold tracking-[-0.02em]
-              text-[44px] leading-tight md:text-[80px] lg:text-[96px]
+              text-[44px] leading-tight md:text-[64px] lg:text-[80px]
               text-transparent bg-clip-text
               bg-[linear-gradient(183deg,rgba(236,241,253,0)_13.9%,rgba(236,241,253,0.30)_121.71%),linear-gradient(0deg,#2E3038,#2E3038)]"
             >

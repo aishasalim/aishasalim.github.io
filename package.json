@@ -11,6 +11,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.10.48",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "emailjs-com": "^3.2.0",
