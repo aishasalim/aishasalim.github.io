@@ -9,12 +9,13 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { GraduationCap, Keyboard, Github, ExternalLink } from "lucide-react";
-import coolCards from "../assets/coolcardsphoto.png";
-import ratemyprofessor from "../assets/ratemyprofessor.png";
-import pantrytracker from "../assets/pantrytracker.png";
-import timemesh from "../assets/timemesh.png";
-import braintumor from "../assets/braintumor.png";
+import {
+  GraduationCap,
+  Keyboard,
+  Github,
+  ExternalLink,
+  Briefcase,
+} from "lucide-react";
 
 /* -------------------------- Scroll-in animation hook -------------------------- */
 const useScrollAnimation = () => {
@@ -42,7 +43,7 @@ const useScrollAnimation = () => {
     const height = Math.max(r.height, 1);
     const visibleY = Math.min(
       vh,
-      Math.max(0, vh - Math.max(0, r.top) - Math.max(0, r.bottom - vh))
+      Math.max(0, vh - Math.max(0, r.top) - Math.max(0, r.bottom - vh)),
     );
     return r.left < vw && r.right > 0 && visibleY / height >= 0.1;
   };
@@ -65,7 +66,7 @@ const useScrollAnimation = () => {
           }
         }
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
     );
 
     observerRef.current = obs;
@@ -177,11 +178,61 @@ function TabsContent({ value, className = "", children }) {
 /* --------------------------------- Data --------------------------------- */
 const experienceData = [
   {
-    title: "AI/ML Fellow – Break Through Tech AI x Skinterest Tech",
-    company: "Remote",
-    date: "Aug 2025 – Present",
-    description:
-      "Building a multi-modal skin condition classifier combining CNNs (transfer learning) with NLP features and confidence calibration aligned to dermatologist assessments.",
+    title: "Product & Engineering Intern",
+    company: "Global Shop Solutions — The Woodlands, TX",
+    date: "May 2026 – Aug 2026",
+    bullets: [
+      "Supported Product & Engineering initiatives focused on AI-enabled tooling, workflow automation, and process improvement across engineering teams.",
+      "Researched and prototyped practical AI use cases by evaluating tradeoffs, limitations, and adoption risks for internal tools and knowledge-sharing workflows.",
+      "Collaborated with software engineers, QA analysts, and managers to document findings and improve team efficiency through AI-assisted processes.",
+    ],
+    tags: [
+      "AI/ML",
+      "Workflow Automation",
+      "Python",
+      "Prompt Engineering",
+      "Documentation",
+    ],
+    icon: Briefcase,
+  },
+  {
+    title: "Project Manager",
+    company: "Develop4Good × Mates Fund Ltd — Remote",
+    date: "May 2026 – Aug 2026",
+    bullets: [
+      "Co-led delivery of a nonprofit website redesign across a 16-week, 3-phase program, coordinating 3 engineers, 3 designers, and 1 technical lead on scope, timelines, and sprint planning.",
+      "Managed 14 recurring client meetings with stakeholders, owning meeting agendas, task tracking, and product requirement alignment.",
+      "Drove completion of 5 formal deliverables — PRD, Project Plan, Case Study, Technical Presentation, and Project Documentation — across scoping, development, and handoff phases.",
+    ],
+    tags: [
+      "Agile / Scrum",
+      "Stakeholder Management",
+      "Sprint Planning",
+      "Product Documentation",
+      "Cross-functional",
+    ],
+    icon: Briefcase,
+  },
+  {
+    title: "Codepath Student Ambassador",
+    company: "Texas A&M University / Remote",
+    date: "Sep 2025 – Jan 2026",
+    bullets: [
+      "Drove campus outreach for CodePath by promoting technical programs through student organizations, faculty partnerships, posters, and recruiting events.",
+      "Represented CodePath in informational sessions across multiple U.S. universities, helping increase student awareness and program interest.",
+    ],
+    tags: ["Leadership", "Outreach", "Community Building"],
+    icon: GraduationCap,
+  },
+  {
+    title: "AI/ML Fellow (Team Lead)",
+    company: "Break Through Tech AI × Skinterest Tech — Remote",
+    date: "Mar 2025 – Dec 2025",
+    bullets: [
+      "Led a 6-person team developing a multi-modal skin condition classification system combining Xception, ResNet50V2, custom CNNs, and NLP, reaching ~82–83% Top-3 accuracy.",
+      "Built data and training pipelines over 50K+ images and metadata, including preprocessing, augmentation, label standardization, and patient-level splitting.",
+      "Applied confidence calibration and model evaluation techniques in Python, TensorFlow/Keras, scikit-learn, pandas, and NumPy to improve prediction trustworthiness.",
+    ],
     tags: [
       "Python",
       "TensorFlow/Keras",
@@ -190,158 +241,95 @@ const experienceData = [
       "NLP",
       "scikit-learn",
       "pandas",
-      "Responsible AI",
-    ],
-    icon: GraduationCap,
-  },
-  {
-    title: "AI/ML Fellow",
-    company: "Break Through Tech — Remote",
-    date: "May 2025 – Present",
-    description:
-      "Selected from 5,000+ applicants. Trained supervised ML pipelines, data wrangling, and model lifecycle practices in agile teams.",
-    tags: [
-      "Supervised Learning",
-      "Model Lifecycle",
-      "pandas",
-      "NumPy",
-      "Agile",
+      "Team Lead",
     ],
     icon: GraduationCap,
   },
   {
     title: "Full-stack Developer",
-    company: "AggieNexus — Hybrid",
-    date: "Mar 2025 – Present",
-    description:
-      "Engineered 5+ Next.js UI modules (≈20% faster mobile loads, −30% layout bugs). Built 5+ prod-ready features and resolved 30+ bugs to improve stability (−25% user-reported issues).",
+    company: "AggieX — Remote",
+    date: "Mar 2025 – Sep 2025",
+    bullets: [
+      "Collaborated on a 9-person team to build a campus platform connecting founders, builders, and investors, delivering full-stack features with React, Next.js, and TypeScript.",
+      "Engineered 10+ React/Next.js UI modules and 5+ features, improving mobile page-load speed by 20% and reducing layout bugs by 30%.",
+      "Resolved 30+ front-end and back-end bugs using Tailwind CSS, Git, and Agile workflows, reducing user-reported issues by 25%.",
+    ],
     tags: [
-      "Next.js",
       "React",
+      "Next.js",
       "TypeScript",
       "Tailwind CSS",
-      "shadcn/ui",
+      "Node.js",
       "Git",
       "Agile",
     ],
     icon: Keyboard,
   },
-  {
-    title: "Software Engineering Fellow",
-    company: "Headstarter — Remote",
-    date: "Jul 2024 – Sep 2024",
-    description:
-      "Launched 5 AI apps in 5 weeks. Shipped flashcard SaaS (Stripe payments ~98% reliability) and a Pinecone + OpenAI RAG search (~85% accuracy).",
-    tags: [
-      "React",
-      "Next.js",
-      "Firebase",
-      "Clerk",
-      "OpenAI",
-      "Pinecone",
-      "Stripe",
-      "Tailwind",
-      "Vercel CI/CD",
-    ],
-    icon: Keyboard,
-  },
-  {
-    title: "Tutor",
-    company: "The Tutoring Center — Katy, TX",
-    date: "May 2023 – Jul 2025",
-    description:
-      "Built a SwiftUI iOS tutoring manager app (+25% data-flow efficiency). Improved outcomes for 80+ K-12 students via personalized methods.",
-    tags: ["SwiftUI", "Xcode", "iOS", "Education"],
-    icon: GraduationCap,
-  },
 ];
 
 const projectData = [
   {
-    title: "TimeMesh",
-    description:
-      "Synchronized calendars SaaS application of 12,000+ lines of code with in a 100,000+ LinkedIn traffic surge and 500+ users within 2 weeks of launch.",
-    imgSrc: timemesh,
-    imgAlt: "TimeMesh",
-    githubLink: "https://github.com/jason-huang-dev/headstarter",
-    hostingLink: "https://timemesh.vercel.app/",
-    skills: [
-      "Django",
-      "ReactJS",
-      "TailwindCSS",
-      "PostgreSQL",
-      "Google OAuth",
-      "OpenRouterAI",
-      "Docker",
-      "Vercel CI/CD",
+    title: "Skinterest — Skin Condition Classifier",
+    badge: "🏆 Break Through Tech AI Studio",
+    bullets: [
+      "Led a 6-person team building a multi-modal deep learning system combining Xception, ResNet50V2, custom CNNs, and NLP to classify skin conditions from images and text, reaching ~82–83% Top-3 accuracy.",
+      "Built data and training pipelines over 50K+ images and metadata, including preprocessing, augmentation, label standardization, and patient-level splitting.",
+      "Applied confidence calibration and model evaluation techniques to improve prediction trustworthiness and align outputs with clinical relevance.",
     ],
-  },
-  {
-    title: "Brain Tumor Classification",
-    description:
-      "I trained 3 models (Xception, CNN and ResNet) based on dataset from Kaggle to identify brain tumor on MRI scans.",
-    imgSrc: braintumor,
-    imgAlt: "Brain Tumor Classification",
-    githubLink: "https://github.com/aishasalim/brain-tumor-classification",
-    hostingLink:
-      "https://brain-tumor-classification-atkjyturudaene3bsmurrr.streamlit.app/",
+    viewLink: "/skinterest-presentation.pdf",
+    viewLabel: "View Presentation",
     skills: [
       "Python",
-      "Computer Vision",
-      "Neural Networks",
+      "TensorFlow/Keras",
+      "CNNs",
       "Transfer Learning",
-      "Gemini",
-      "OpenAI",
-      "Llama",
-      "Groq",
-      "Streamlit",
+      "NLP",
+      "scikit-learn",
+      "pandas",
+      "NumPy",
     ],
   },
   {
-    title: "RateMyProfessorAI",
-    description:
-      "RateMyProfessorAI is an ultimate guide to navigating the world of professors. Chatbot can read and summarize links from Rate My Professor, recommend other professors, and evaluate which professor fits best with your schedule.",
-    imgSrc: ratemyprofessor,
-    imgAlt: "RateMyProfessorAI",
-    githubLink: "https://github.com/aishasalim/rmp-assistant",
-    hostingLink: "https://ratemyprofessorai.vercel.app/",
+    title: "Embedded Trojan Hunter",
+    badge: "🥉 3rd Place — Aggie Invent 2026",
+    bullets: [
+      "48-hour intensive design competition focused on cybersecurity: given microchip test datasets, investigated potential malicious activities and proposed solutions to detect hardware trojans, software trojans, and counterfeit devices.",
+      "Developed a detection approach, prototype, and business model pitched to industry judges.",
+    ],
+    githubLink: "https://github.com/aishasalim/embedded-trojan-hunter",
     skills: [
-      "NextJS",
-      "TypeScript",
-      "Firebase",
-      "openAI",
-      "Pinecone",
-      "MUI",
-      "WebScrapping",
+      "Hardware Security",
+      "Trojan Detection",
+      "Data Analysis",
+      "Python",
     ],
   },
   {
-    title: "CoolCardsAI",
-    description:
-      "SaaS platform that generates personalized flashcards on any topic using OpenAI. Integrated Stripe API to implement custom pricing plans and a secure payment gateway.",
-    imgSrc: coolCards,
-    imgAlt: "CoolCardsAI",
-    githubLink: "https://github.com/aishasalim/flashcard-saas",
-    hostingLink: "https://coolcards-ai.vercel.app/",
-    skills: ["NextJS", "Clerk", "Firebase", "openAI", "StripeAPI", "MUI"],
+    title: "LLM-Assisted Hardware Verification",
+    badge: "🔬 Research — Texas A&M, Dr. Aakash Tyagi",
+    bullets: [
+      "Contributed to a next-gen hardware verification framework.",
+      "Project under development, secret.",
+    ],
+    skills: ["Python", "Hardware Verification", "JSON"],
   },
   {
-    title: "Pantry Manager",
-    description:
-      "Pantry Manager is smart pantry operated by AI support chat. AI can suggest recipes based on ingredients stored, and store them.",
-    imgSrc: pantrytracker,
-    imgAlt: "Pantry Manager",
-    githubLink: "https://github.com/aishasalim/pantry-tracker",
-    hostingLink: "https://pantry-tracker-kappa.vercel.app/",
-    skills: [
-      "NextJS",
-      "Javascript",
-      "Firebase",
-      "TogetherAI",
-      "TailwindCSS",
-      "Clerk",
-      "ChartJS",
+    title: "AI Code Learning Assistant",
+    badge: "🎓 Research — Texas A&M, Prof. Wai Tong",
+    bullets: [
+      "Built an AI assistant for code learning in VIST 272 using RAG and OpenAI APIs to support real-time p5.js programming help for students.",
+      "Improved response relevance and reduced hallucination risk by grounding LLM outputs in course-specific materials and structured retrieval workflows.",
+      "Collaborated on a faculty-led AI in education project spanning classroom support, authentication, collaboration, and learning analytics features.",
     ],
+    skills: ["RAG", "OpenAI API", "Prompt Engineering", "Python", "p5.js"],
+  },
+  {
+    title: "Group Matching App",
+    bullets: [
+      "I set up an app for Zachry Leadership Program students that would organize coffee chat schedules :)",
+    ],
+    githubLink: "https://github.com/aishasalim/groupmatching",
+    skills: ["JavaScript", "React", "Scheduling Logic"],
   },
 ];
 
@@ -463,9 +451,11 @@ const ExperienceProjects = () => {
                           <p className="text-sm text-gray-400">
                             {experience.date}
                           </p>
-                          <p className="mt-4 text-gray-700">
-                            {experience.description}
-                          </p>
+                          <ul className="mt-4 space-y-1 list-disc list-outside pl-4 text-gray-700">
+                            {experience.bullets.map((bullet, bi) => (
+                              <li key={bi}>{bullet}</li>
+                            ))}
+                          </ul>
                           <div className="mt-2 flex flex-wrap">
                             {experience.tags.map((tag, tagIndex) => (
                               <span
@@ -488,41 +478,32 @@ const ExperienceProjects = () => {
           {/* PROJECTS */}
           <TabsContent value="portfolio" className="mt-0">
             <div className="mx-5">
-              <p
-                ref={(el) => observeElement(el, "portfolio-desc")}
-                className={`text-center mb-10 transition-all duration-700 delay-300 ${
-                  visibleElements.has("portfolio-desc")
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
-              >
-                Below are some of my projects ranging from a variety of topics
-                from scripts to full-stack apps.
-              </p>
-
               {projectData.map((project, index) => (
                 <div
                   key={index}
                   ref={(el) => observeElement(el, `project-${index}`)}
-                  className={`flex flex-col md:flex-row items-center mb-16 transition-all duration-700 ${
+                  className={`mb-10 p-6 bg-white rounded-xl shadow-md border border-gray-200 transition-all duration-700 hover:shadow-lg ${
                     visibleElements.has(`project-${index}`)
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-12"
                   }`}
                   style={{ transitionDelay: `${index * 150 + 400}ms` }}
                 >
-                  <div className="md:w-1/2 will-change-transform">
-                    <img
-                      src={project.imgSrc || "/placeholder.svg"}
-                      alt={project.imgAlt}
-                      className="rounded-lg shadow-lg w-full"
-                    />
-                  </div>
-                  <div className="md:w-1/2 md:pl-10 mt-6 md:mt-0">
-                    <h3 className="text-2xl font-bold mb-2">
-                      Project {index + 1}: {project.title}
-                    </h3>
-                    <div className="flex mb-4">
+                  {project.badge && (
+                    <p className="text-sm font-medium text-gray-500 mb-1">
+                      {project.badge}
+                    </p>
+                  )}
+                  <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
+
+                  <ul className="list-disc list-outside pl-4 text-gray-700 space-y-1 mb-4">
+                    {project.bullets.map((b, bi) => (
+                      <li key={bi}>{b}</li>
+                    ))}
+                  </ul>
+
+                  <div className="flex gap-4 mb-4 flex-wrap">
+                    {project.githubLink && (
                       <a
                         href={project.githubLink}
                         className="text-default flex items-center group"
@@ -530,40 +511,37 @@ const ExperienceProjects = () => {
                         rel="noopener noreferrer"
                       >
                         <Github className="mr-1 transition-transform group-hover:-translate-y-0.5" />
-                        View Github
+                        View GitHub
                         <span className="ml-2 transition-transform transform group-hover:translate-x-3 duration-200">
                           &gt;
                         </span>
                       </a>
-                    </div>
-                    <div className="flex mb-4">
+                    )}
+                    {project.viewLink && (
                       <a
-                        href={project.hostingLink}
+                        href={project.viewLink}
                         className="text-default flex items-center group"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <ExternalLink className="mr-1 transition-transform group-hover:-translate-y-0.5" />
-                        View Live
+                        {project.viewLabel ?? "View"}
                         <span className="ml-2 transition-transform transform group-hover:translate-x-3 duration-200">
                           &gt;
                         </span>
                       </a>
-                    </div>
-                    <div className="mb-4">
-                      <h4 className="font-semibold">Description:</h4>
-                      <p>{project.description}</p>
-                    </div>
-                    <div className="flex flex-wrap">
-                      {project.skills.map((skill, skillIndex) => (
-                        <span
-                          key={skillIndex}
-                          className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 text-gray-800 rounded-full px-4 py-1 text-sm mr-2 mb-2"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap">
+                    {project.skills.map((skill, si) => (
+                      <span
+                        key={si}
+                        className="hover:scale-110 transform transition-transform duration-200 bg-gray-200 text-gray-800 rounded-full px-4 py-1 text-sm mr-2 mb-2"
+                      >
+                        {skill}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))}

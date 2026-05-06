@@ -88,15 +88,18 @@ const AboutMe = () => {
                           <div className="md:w-1/2 space-y-4">
                             <div className="space-y-3 text-sm text-[#33373f] leading-relaxed">
                               <p className="mb-4 text-[18px] leading-7 text-[#33373f]">
-                                Howdy! I am Aisha from Houston, and I am a Texas
-                                A&M student pursuing a bachelor's degree in
-                                Computer Engineering. I enjoy full‑stack dev and
-                                Machine Learning.
+                                Howdy! I am Aisha from Houston. I am junior in
+                                Computer Engineering at Texas A&M. I work across
+                                full-stack development, AI/ML, and product
+                                management.
                               </p>
                               <p className="mb-4 text-[18px] leading-7 text-[#33373f]">
-                                I am only starting my professional career and
-                                I'm detail‑oriented and strive for perfection in
-                                everything I do. Follow me to track my journey!
+                                I've interned at Global Shop Solutions on
+                                AI-enabled tooling, led a nonprofit website
+                                redesign as PM at Develop4Good, and co-led an ML
+                                research team at Break Through Tech AI. I'm
+                                detail-oriented and driven — follow along as I
+                                build!
                               </p>
                               <p className="mb-6 text-[18px] leading-7 text-[#33373f]">
                                 Feel free to reach out to me on{" "}

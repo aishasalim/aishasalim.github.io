@@ -2,23 +2,32 @@ import React, { useEffect, useRef, useState } from "react";
 
 const educationData = [
   {
-    degree: "BS Computer Engineering",
-    school: "Texas A&M University, College Station, TX",
-    date: "2025 - 2028",
+    degree: "B.S. Computer Engineering",
+    school: "Texas A&M University — College Station, TX",
+    date: "2025 – 2028",
     details: [
-      "Grade: Highest Honors (4.0)",
-      "Activities and societies: President, Philosophy Club Northwest",
-      "Honors/Dean's List: Spring 23, Summer 23, Fall 23, Spring 24, Fall 24",
+      "Engineering Project Management Minor",
+      "Aggie Invent (3rd Place) • Meloy Kickstart Technical Officer",
+      "Zachry Leadership Program, Cohort K",
+      "Relevant coursework: Software Engineering, Operating Systems, Computer Organization, Data Structures & Algorithms",
     ],
   },
   {
-    degree: "AS Computer Science",
-    school: "Houston Community College, Houston, TX",
-    date: "2023 - 2024",
+    degree: "A.S. Computer Science",
+    school: "Houston Community College — Houston, TX",
+    date: "2023 – 2024",
     details: [
-      "Grade: Highest Honors (4.0)",
-      "Activities and societies: President, Philosophy Club Northwest",
-      "Honors/Dean's List: Spring 23, Summer 23, Fall 23, Spring 24, Fall 24",
+      "GPA: 4.0 • HCC Honors / Dean's List",
+      "Computer Science Association Officer",
+    ],
+  },
+  {
+    degree: "Certifications & Programs",
+    school: "Cornell University • Amazon Robotics",
+    date: "",
+    details: [
+      "Machine Learning Foundations Certificate — Cornell University (May 2025 – Aug 2025)",
+      "Amazon Robotics Mentorship Program (Aug 2025 – May 2026)",
     ],
   },
 ];
