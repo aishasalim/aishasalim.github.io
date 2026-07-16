@@ -23,13 +23,15 @@ const Projects = () => {
             {project.githubLink || project.viewLink ? (
               <a
                 href={project.githubLink ?? project.viewLink}
-                className="group inline-flex items-center underline-offset-4 hover:underline"
+                className="group inline-flex flex-wrap items-center gap-x-3 gap-y-1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {project.title}
-                <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1">
-                  &rarr;
+                <span className="underline decoration-2 underline-offset-4 group-hover:decoration-4">
+                  {project.title}
+                </span>
+                <span className="inline-block rounded-sm border border-current px-1.5 py-0.5 text-[0.5em] tracking-widest opacity-70 transition-opacity group-hover:opacity-100">
+                  {project.githubLink ? "GitHub" : "PDF"} &#8599;
                 </span>
               </a>
             ) : (

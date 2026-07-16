@@ -41,7 +41,6 @@ export default function usePaperPile() {
 
     const pinTop = STACK_TOP + CARD_TUCK;
     let frame = null;
-    let holdT = 0; // current translate applied to the next folder
 
     const offsetWithin = (el, ancestor) => {
       let y = 0;
@@ -70,26 +69,19 @@ export default function usePaperPile() {
         paper.style.transform = `translate3d(0, ${lift}px, 0) rotate(${TILTS[k % TILTS.length]}deg)`;
       });
 
-      /* Hold the next folder's tab at the fold from the moment this folder
-         is on screen, through the whole pile phase. Its natural position is
-         spacer-distance below the viewport; pull it up to the peek line,
-         and release (t -> 0) once the pile is done and the natural position
-         rises past the peek line. */
+      /* While the next folder is stuck at the fold (see measure), it needs
+         to sit above this folder's tab z-range (20 + depth) so the deeper
+         trapezoid wins, exactly like in the pinned row at the top — sticky
+         creates a stacking context that would otherwise trap its nested
+         tab's z-index. Restore once it un-sticks, so the pinned tabs at the
+         top of the screen can paint over its card while it scrolls past.
+         (A one-frame delay here is invisible; the position itself is pure
+         CSS sticky, handled by the compositor with no per-frame JS.) */
       if (next) {
-        const naturalTop = next.getBoundingClientRect().top - holdT;
-        const target = window.innerHeight - NEXT_PEEK;
-        let t = 0;
-        if (section.getBoundingClientRect().top < window.innerHeight) {
-          t = Math.min(0, target - naturalTop);
-        }
-        holdT = t;
-        next.style.transform = t ? `translate3d(0, ${t}px, 0)` : "";
-        /* The hold transform makes this section a stacking context, which
-           would trap the nested (deeper) folder's tab UNDER this folder's
-           own tab. While held at the fold, lift the section above the tab
-           z-range (20 + depth) so the deeper trapezoid wins, exactly like
-           it does in the pinned row at the top; restore on release. */
-        next.style.zIndex = t ? "30" : "";
+        const stuck =
+          next.getBoundingClientRect().top >=
+          window.innerHeight - NEXT_PEEK - 1;
+        next.style.zIndex = stuck ? "30" : "";
       }
     };
 
@@ -104,6 +96,19 @@ export default function usePaperPile() {
       const needShift = offsetWithin(last, body) - lastPin;
       const extra = needShift + frameH - inner.offsetHeight;
       spacer.style.height = `${Math.max(0, extra)}px`;
+
+      /* Pin the next folder's peek at the fold with CSS sticky instead of
+         per-frame JS transforms — the compositor keeps it glued during
+         scroll, which stays smooth on devices where scroll-driven JS lags.
+         A bottom of (peek - height) sticks the section so its TOP edge
+         rides at (viewport - peek) while its natural position is below the
+         fold; its containing block (the parent folder section) clamps it,
+         so it only appears once the parent is on screen and releases into
+         normal flow when its natural position catches up. */
+      if (next) {
+        next.style.position = "sticky";
+        next.style.bottom = `${NEXT_PEEK - next.offsetHeight}px`;
+      }
       apply();
     };
 
@@ -114,6 +119,7 @@ export default function usePaperPile() {
     measure();
     const ro = new ResizeObserver(measure);
     papers.forEach((paper) => ro.observe(paper));
+    if (next) ro.observe(next); // its height sets the sticky bottom
     window.addEventListener("resize", measure);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
@@ -122,7 +128,8 @@ export default function usePaperPile() {
       window.removeEventListener("scroll", onScroll);
       if (frame !== null) window.cancelAnimationFrame(frame);
       if (next) {
-        next.style.transform = "";
+        next.style.position = "";
+        next.style.bottom = "";
         next.style.zIndex = "";
       }
     };
