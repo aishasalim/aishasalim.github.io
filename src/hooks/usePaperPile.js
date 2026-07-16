@@ -84,6 +84,12 @@ export default function usePaperPile() {
         }
         holdT = t;
         next.style.transform = t ? `translate3d(0, ${t}px, 0)` : "";
+        /* The hold transform makes this section a stacking context, which
+           would trap the nested (deeper) folder's tab UNDER this folder's
+           own tab. While held at the fold, lift the section above the tab
+           z-range (20 + depth) so the deeper trapezoid wins, exactly like
+           it does in the pinned row at the top; restore on release. */
+        next.style.zIndex = t ? "30" : "";
       }
     };
 
@@ -115,7 +121,10 @@ export default function usePaperPile() {
       window.removeEventListener("resize", measure);
       window.removeEventListener("scroll", onScroll);
       if (frame !== null) window.cancelAnimationFrame(frame);
-      if (next) next.style.transform = "";
+      if (next) {
+        next.style.transform = "";
+        next.style.zIndex = "";
+      }
     };
   }, []);
 
