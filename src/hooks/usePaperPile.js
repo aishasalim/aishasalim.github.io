@@ -69,20 +69,6 @@ export default function usePaperPile() {
         paper.style.transform = `translate3d(0, ${lift}px, 0) rotate(${TILTS[k % TILTS.length]}deg)`;
       });
 
-      /* While the next folder is stuck at the fold (see measure), it needs
-         to sit above this folder's tab z-range (20 + depth) so the deeper
-         trapezoid wins, exactly like in the pinned row at the top — sticky
-         creates a stacking context that would otherwise trap its nested
-         tab's z-index. Restore once it un-sticks, so the pinned tabs at the
-         top of the screen can paint over its card while it scrolls past.
-         (A one-frame delay here is invisible; the position itself is pure
-         CSS sticky, handled by the compositor with no per-frame JS.) */
-      if (next) {
-        const stuck =
-          next.getBoundingClientRect().top >=
-          window.innerHeight - NEXT_PEEK - 1;
-        next.style.zIndex = stuck ? "30" : "";
-      }
     };
 
     const measure = () => {
@@ -108,6 +94,13 @@ export default function usePaperPile() {
       if (next) {
         next.style.position = "sticky";
         next.style.bottom = `${NEXT_PEEK - next.offsetHeight}px`;
+        /* Sticky makes the section a stacking context, which would trap
+           its tab's z-index (20 + depth) below the parent folder's tab —
+           both at the fold and in the pinned row up top. Lift the whole
+           section above the tab range instead; safe because cards pin
+           below the tab row (top 80px vs row bottom 80px), so only tabs
+           ever overlap tabs. */
+        next.style.zIndex = "30";
       }
       apply();
     };
