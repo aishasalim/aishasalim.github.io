@@ -1,29 +1,33 @@
 import React, { useState } from "react";
-import ExperienceProjects from "./components/ExperienceProjects";
-import ContactForm from "./components/ContactForm";
 import Topbar from "./components/Topbar";
 import Hero from "./components/Hero";
+import Folder from "./components/Folder";
 import AboutMe from "./components/AboutMe";
+import Experience from "./components/Experience";
+import Projects from "./components/Projects";
 import Education from "./components/Education";
-import Footer from "./components/Footer";
-import Skills from "./components/Skills";
+import content from "./content";
+
+/* Which component renders each folder card; label + tint come from content. */
+const folderBodies = {
+  about: AboutMe,
+  experience: Experience,
+  portfolio: Projects,
+  education: Education,
+};
+
+const folders = content.folders.map((folder) => ({
+  ...folder,
+  Body: folderBodies[folder.id],
+}));
 
 import { Github, Linkedin, Mail } from "lucide-react";
 
 const App = () => {
   const links = [
-    {
-      href: "https://www.linkedin.com/in/aisha-salimgereyeva/",
-      icon: Linkedin,
-    },
-    {
-      href: "mailto:aishasalimg@gmail.com",
-      icon: Mail,
-    },
-    {
-      href: "https://github.com/aishasalim",
-      icon: Github,
-    },
+    { href: content.site.linkedin, icon: Linkedin },
+    { href: `mailto:${content.site.email}`, icon: Mail },
+    { href: content.site.github, icon: Github },
   ];
 
   const [openNavigation, setOpenNavigation] = useState(false);
@@ -62,11 +66,6 @@ const App = () => {
       return;
     }
 
-    // Section selectors (like "#contact" already handled above) or other local selectors
-    const targetSection = document.querySelector(url);
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   return (
@@ -78,12 +77,25 @@ const App = () => {
           toggleNavigation={toggleNavigation}
         />
         <Hero />
-        <AboutMe links={links} />
 
-        <ExperienceProjects />
-        <Education />
-        <ContactForm />
-        <Footer links={links} />
+        <div className="folder-stack">
+          {folders.reduceRight(
+            (nested, { id, label, tint, Body }, index) => (
+              <Folder
+                key={id}
+                id={id}
+                index={index}
+                label={label}
+                tint={tint}
+                nested={nested}
+              >
+                <Body links={links} />
+              </Folder>
+            ),
+            null,
+          )}
+        </div>
+
       </div>
     </>
   );

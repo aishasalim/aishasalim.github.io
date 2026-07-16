@@ -3,7 +3,7 @@ import React from 'react';
 const MenuSvg = ({ openNavigation, toggleNavigation }) => {
   return (
     <button
-      className="my-2 ml-auto lg:hidden hover-menu"
+      className="my-0.5 ml-auto lg:hidden hover-menu"
       onClick={toggleNavigation}
     >
       <svg
@@ -20,7 +20,6 @@ const MenuSvg = ({ openNavigation, toggleNavigation }) => {
           width="20"
           height="2"
           rx="1"
-          transform={`rotate(${openNavigation ? "45" : "0"})`}
         />
         <rect
           className={`transition-all origin-center menu-rect ${
@@ -30,7 +29,6 @@ const MenuSvg = ({ openNavigation, toggleNavigation }) => {
           width="20"
           height="2"
           rx="1"
-          transform={`rotate(${openNavigation ? "-45" : "0"})`}
         />
       </svg>
     </button>

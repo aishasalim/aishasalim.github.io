@@ -1,19 +1,29 @@
-import React from 'react';
+import React from "react";
 
-const Footer = ({links}) => {
+/* Tall white footer: gives the page enough scroll room past the folder stack
+   for every folder tab to reach the pin line, so the trapezoids align on the
+   same level at the end of the scroll. */
+const Footer = ({ links }) => {
   return (
-    <footer className="py-6 border-t border-gray-300 dark:border-gray-700">
-      <div className="max-w-6xl my-4 mx-auto px-4 flex justify-between items-center">
-        {/* Left side: Company name and links */}
+    <footer className="bg-white text-gray-800 min-h-[70vh] flex flex-col justify-end">
+      <div className="max-w-6xl mx-auto px-4 w-full py-6 flex justify-between items-center border-t border-gray-200">
         <div className="text-left">
-          <h3 className="text-lg font-bold">Aisha Salimgereyeva</h3>
+          <h3 className="text-sm font-bold">Aisha Salimgereyeva</h3>
+          <p className="text-xs text-gray-500">
+            © {new Date().getFullYear()}
+          </p>
         </div>
 
-        {/* Right side: Social media icons */}
-        <div className="flex space-x-4">
+        <div className="flex space-x-4">foo
           {links.map((link, index) => (
-            <a key={index} href={link.href} className="flex items-center space-x-2 text-default dark:text-dark">
-              <link.icon alt={`${link.href} icon`} className="h-6 w-6" />
+            <a
+              key={index}
+              href={link.href}
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              <link.icon alt={`${link.href} icon`} className="h-5 w-5" />
             </a>
           ))}
         </div>

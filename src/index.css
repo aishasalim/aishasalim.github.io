@@ -3,6 +3,20 @@
 @import "tw-animate-css";
 
 
+/* JetBrains Mono — self-hosted, used inside the folder cards. */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-700.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -43,7 +57,9 @@
 
 :root {
   --radius: 0.625rem;
-  --background: rgba(245, 249, 253, 1); /* bg-slate-100 */
+  --font-body: "Inter", "Helvetica Neue", "Suisse Int'l", Arial, sans-serif;
+  --font-headline: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --background: #ffffff;
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
@@ -82,6 +98,533 @@
     @apply border-border outline-ring/50;
   }
   body {
+    font-family: var(--font-body);
     @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+  }
+}
+
+/* ------------------------------ Folder stack ------------------------------ */
+/* Each folder sticks at its own offset; later siblings paint over earlier ones,
+   so a covered folder keeps exactly its tab strip visible. No JS involved. */
+.folder-stack {
+  position: relative;
+  /* 4 tabs must fit in a row: total = tab-w + 3 * tab-step ≤ viewport.
+     tab-step < tab-w, so pinned tabs overlay each other like stacked
+     folder separators. */
+  --tab-w: min(24.5vw, 340px);
+  --tab-step: min(15vw, 200px);
+  --tab-h: 36px;
+  --stack-top: 44px; /* flush under the fixed topbar (44px tall) */
+}
+
+/* Transparent container: the tint lives on the tab + body, so the strip beside
+   a tab stays see-through and reveals the folder behind it. */
+.folder {
+  position: relative;
+  /* Land the folder's tab flush under the fixed topbar (where it pins,
+     top: --stack-top), not a tab-height below it. */
+  scroll-margin-top: var(--stack-top);
+}
+
+/* Each nested folder rides up over the previous one's body by a tab height, so
+   its tab lands on the panel above rather than pushing it down. */
+.folder .folder {
+  margin-top: calc(-1 * var(--tab-h));
+}
+
+/* All tabs pin at the same height; depth shifts them right so they sit in a
+   row. Each next tab starts where the previous one's angled cut begins and
+   lies ON TOP of it (later tabs get higher z-index), like folder separators
+   stacked in front of each other. */
+.folder-tab {
+  position: sticky;
+  top: var(--stack-top);
+  z-index: calc(20 + var(--folder-depth));
+  display: flex;
+  /* 2px taller than the flow slot (negative margin gives it back): the tab
+     hangs over the card top so DPR/zoom rounding can't open a hairline seam. */
+  height: calc(var(--tab-h) + 2px);
+  margin-bottom: -2px;
+  width: var(--tab-w);
+  margin-left: calc(var(--folder-depth) * var(--tab-step));
+  align-items: center;
+  padding-left: 1.25rem;
+  background: var(--folder-tint);
+  /* angled cut on the trailing edge; the extra points bevel the top-right
+     corner into a slight round (border-radius can't survive clip-path) */
+  clip-path: polygon(
+    0 0,
+    calc(100% - 26px) 0,
+    calc(100% - 20px) 2.5px,
+    calc(100% - 15px) 7px,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* Plugs the transparent strip to the right of the deepest tab (see Folder.jsx).
+   Pinned at the tab line with zero net flow height (margin cancels), offset to
+   start just under the last tab's angled edge and run to the screen's edge. */
+.folder-tab-cap {
+  position: sticky;
+  top: var(--stack-top);
+  z-index: calc(20 + var(--folder-depth));
+  height: var(--tab-h);
+  margin-bottom: calc(-1 * var(--tab-h));
+  margin-left: calc(
+    var(--folder-depth) * var(--tab-step) + var(--tab-w) - 20px
+  );
+  background: var(--folder-tint);
+}
+
+/* Labels of covered tabs get ellipsized at the visible strip (tab-step) so the
+   overlaying tab doesn't slice glyphs mid-letter. The deepest folder's tab is
+   never covered, so its label may use the full tab width. */
+.folder-tab-label {
+  max-width: calc(var(--tab-step) - 1.5rem);
+}
+
+.folder:not(:has(.folder)) > .folder-tab .folder-tab-label {
+  max-width: none;
+}
+
+/* Deepest folder (Education): its card must be tall enough that the page can
+   keep scrolling until this folder's tab reaches the pin line, so the last
+   trapezoid lines up level with the others at the end of the scroll.
+   100vh minus the sticky offset (--stack-top) and the tab row itself. */
+.folder:not(:has(.folder)) .folder-body-inner {
+  min-height: calc(100vh - var(--stack-top) - var(--tab-h));
+}
+
+.folder-tab-label {
+  overflow: hidden;
+  font-size: clamp(0.78rem, 1.15vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #ffffff;
+}
+
+/* Sticky so the section DWELLS once you've scrolled through it, and the next
+   folder slides up over it (the reference pins whole 100vh sheets; for taller
+   content the pin point depends on the body's height, so `top` is set from JS
+   in Folder.jsx). */
+.folder-body {
+  position: sticky;
+  overflow: hidden; /* tall cards clip their inner content as it scrolls */
+  background: var(--folder-tint);
+  color: #f5f7fa;
+}
+
+.folder-body-inner {
+  padding: 3.5rem 0 5rem;
+  will-change: transform;
+}
+
+/* Cards set in JetBrains Mono, uppercase — body copy and headings alike
+   (unlayered, so this beats the base-layer h1–h6 headline font). Tabs match. */
+.folder-body,
+.folder-body :is(h1, h2, h3, h4, h5, h6),
+.folder-tab-label {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Dial card text down to 0.9× of the Tailwind sizes. Unlayered, so these beat
+   the utility classes; base 0.9rem covers list items with no size utility. */
+.folder-body { font-size: 0.9rem; }
+.folder-body .text-\[18px\] { font-size: 16.2px; }
+.folder-body .text-2xl { font-size: 1.35rem; }
+.folder-body .text-lg { font-size: 1.0125rem; }
+.folder-body .text-sm { font-size: 0.7875rem; }
+
+/* The panels are dark, so the sections' grey text has to invert. Unlayered
+   rules beat Tailwind's layered utilities, so these win without !important. */
+.folder-body .text-gray-800,
+.folder-body .text-gray-700 {
+  color: #f5f7fa;
+}
+
+.folder-body .text-gray-600 {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.folder-body .text-gray-500,
+.folder-body .text-gray-400 {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.folder-body ::marker {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ------------------------------- Paper card ------------------------------- */
+/* A white sheet resting inside the folder (Experience shows one entry at a
+   time on it). Placed after the folder-body color inversions so the re-darkened
+   text rules below win at equal specificity. */
+.paper-card {
+  position: relative;
+  /* Warm white sheet with dashed ruled lines (SVG tile: one dash, repeated
+     horizontally into a dashed line, vertically every 2em). */
+  background-color: #f7f5ee;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='32'%3E%3Cpath d='M0 31h6' stroke='%23ddd8c6' stroke-width='1'/%3E%3C/svg%3E");
+  padding: 2.25rem 2.5rem 1.5rem 4.75rem;
+  border-radius: 2px;
+  /* Every sheet the same height: the frame area between the folder strip
+     above the pile (56px) and the next folder's tab peeking at the fold. */
+  height: max(calc(100vh - 240px), 420px);
+  overflow: hidden;
+  /* Pinned/piled via an inline transform driven by scroll (Experience.jsx);
+     no entrance animation — its fill would override that transform. */
+  will-change: transform;
+}
+
+/* Punched binder holes: the folder's own tint shows through, with a soft
+   darker rim so they read as cut-outs rather than dots. */
+.paper-card::before {
+  content: "";
+  position: absolute;
+  left: 1.15rem;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background-image:
+    radial-gradient(circle, var(--folder-tint, #333) 6px, rgba(0, 0, 0, 0.28) 7px, transparent 8.5px),
+    radial-gradient(circle, var(--folder-tint, #333) 6px, rgba(0, 0, 0, 0.28) 7px, transparent 8.5px),
+    radial-gradient(circle, var(--folder-tint, #333) 6px, rgba(0, 0, 0, 0.28) 7px, transparent 8.5px);
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position:
+    center 14%,
+    center 50%,
+    center 86%;
+  pointer-events: none;
+}
+
+/* Dashed margin rule separating the hole strip from the writing area. */
+.paper-card::after {
+  content: "";
+  position: absolute;
+  left: 3.4rem;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dashed #d8a9a2;
+  pointer-events: none;
+}
+
+/* Ink back to dark on the paper, overriding the folder-body inversions. */
+.folder-body .paper-card,
+.folder-body .paper-card .text-gray-800,
+.folder-body .paper-card .text-gray-700 {
+  color: #26251f;
+}
+
+.folder-body .paper-card .text-gray-600 {
+  color: #4d4b41;
+}
+
+.folder-body .paper-card .text-gray-500,
+.folder-body .paper-card .text-gray-400 {
+  color: #7b786a;
+}
+
+.folder-body .paper-card ::marker {
+  color: #aaa695;
+}
+
+@media (max-width: 640px) {
+  .paper-card {
+    padding: 1.5rem 1.25rem 1rem 3.25rem;
+    /* Text needs more room on narrow screens; equal heights still hold
+       because every sheet gets the same floor. */
+    height: auto;
+    min-height: max(calc(100vh - 240px), 420px);
+  }
+
+  .paper-card::before {
+    left: 0.55rem;
+    background-size: 14px 14px;
+    background-image:
+      radial-gradient(circle, var(--folder-tint, #333) 4.5px, rgba(0, 0, 0, 0.28) 5.5px, transparent 7px),
+      radial-gradient(circle, var(--folder-tint, #333) 4.5px, rgba(0, 0, 0, 0.28) 5.5px, transparent 7px),
+      radial-gradient(circle, var(--folder-tint, #333) 4.5px, rgba(0, 0, 0, 0.28) 5.5px, transparent 7px);
+  }
+
+  .paper-card::after {
+    left: 2.3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .folder-stack {
+    /* Longer overlapping trapezoids, and each visible strip (tab-step) wide
+       enough to fit its whole label: 31 + 3×23 = 100vw. */
+    --tab-w: 31vw;
+    --tab-step: 23vw;
+  }
+
+  .folder-tab {
+    padding-left: 0.6rem;
+  }
+
+  /* Small enough that EXPERIENCE (the longest label) fits its 23vw strip. */
+  .folder-tab-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .folder-tab-label,
+  .folder:not(:has(.folder)) > .folder-tab .folder-tab-label {
+    max-width: calc(var(--tab-step) - 0.8rem);
+  }
+
+  .folder-body-inner {
+    padding: 2.5rem 0 3rem;
+  }
+}
+
+/* Fill the screen so the first folder tab sits exactly at the fold, never
+   peeking into the hero. */
+#hero {
+  min-height: 100svh;
+}
+
+.hero-headline-row {
+  padding-inline: clamp(0rem, 2vw, 2.5rem);
+}
+
+.hero-headline {
+  display: block;
+  margin: 0;
+  font-family: var(--font-headline);
+  /* the email is the longest line — it must fit a 390px screen without clipping */
+  font-size: clamp(1.5rem, 7.6vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  color: #111827;
+}
+
+.hero-email-link {
+  margin-top: -0.1em;
+  color: #a3a3a3;
+  text-decoration: none;
+  text-underline-offset: 0.08em;
+  text-decoration-thickness: 0.045em;
+  transition: color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-email-link:hover,
+.hero-email-link:focus-visible {
+  color: #111827;
+  text-decoration: underline;
+  outline: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: flex;
+  /* also bounded by viewport height so the whole cluster — including the
+     "About" label — stays above the fold on a laptop screen */
+  min-height: min(clamp(420px, 52vw, 620px), 56vh);
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-avatar-wrap {
+  z-index: 2;
+}
+
+.hero-avatar {
+  /* She is ~1.88x as tall as she is wide, so her width is what drives the
+     hero's height. Cap it against vh or she pushes "About" off-screen. */
+  width: min(clamp(175px, 24vw, 320px), 32vh);
+  aspect-ratio: 914 / 1721;
+  transform-origin: center bottom;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-avatar-wrap a:hover .hero-avatar,
+.hero-avatar-wrap a:focus-visible .hero-avatar {
+  transform: translateY(-12px) scale(1.02);
+}
+
+.hero-avatar-wrap a:hover .hero-avatar-label,
+.hero-avatar-wrap a:focus-visible .hero-avatar-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hero-avatar-label {
+  margin-top: -1.25rem;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #111827;
+}
+
+.hero-nav-link {
+  position: absolute;
+  left: calc(50% + var(--x));
+  top: calc(50% + var(--y));
+  display: flex;
+  width: clamp(92px, 9vw, 138px);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: #737373;
+  transform: translate3d(-50%, -50%, 0);
+  transition: color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-nav-link:hover,
+.hero-nav-link:focus-visible {
+  color: #111827;
+}
+
+.hero-nav-link:focus-visible {
+  outline: none;
+}
+
+.hero-nav-icon {
+  display: block;
+  width: clamp(78px, 8vw, 116px);
+  aspect-ratio: 1;
+  transform: rotate(var(--tilt));
+  transform-origin: center bottom;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-nav-link:hover .hero-nav-icon,
+.hero-nav-link:focus-visible .hero-nav-icon {
+  transform: translateY(-10px) rotate(0deg) scale(1.04);
+}
+
+.hero-nav-icon--folder {
+  width: clamp(106px, 10.8vw, 158px);
+}
+
+.hero-nav-icon--folder + .hero-nav-label {
+  margin-top: -1.75rem;
+}
+
+.hero-nav-icon--laptop {
+  width: clamp(100px, 10.4vw, 152px);
+}
+
+.hero-nav-icon--coffee {
+  width: clamp(72px, 7.4vw, 108px);
+}
+
+.hero-nav-icon--phone {
+  width: clamp(56px, 5.8vw, 84px);
+}
+
+.hero-nav-icon img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.hero-nav-link:hover .hero-nav-label,
+.hero-nav-link:focus-visible .hero-nav-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hero-nav-label {
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: currentColor;
+  text-align: center;
+}
+
+.hero-nav-link :is(svg) {
+  overflow: visible;
+}
+
+/* Phone: drop the absolute scatter and lay the cluster out in two columns —
+   laptop over Aisha on the left, folder / phone / coffee stacked on the right. */
+@media (max-width: 767px) {
+  .hero-grid {
+    display: grid;
+    min-height: 0;
+    /* content-sized columns, centered as a pair — 1fr columns strand the icons
+       in the middle of each half and open a gap down the spine */
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    gap: 1.25rem 0.5rem;
+  }
+
+  .hero-nav-link {
+    position: static;
+    width: auto;
+    transform: none;
+  }
+
+  .hero-nav-link--laptop {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hero-avatar-wrap {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+  }
+
+  .hero-nav-link--folder {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .hero-nav-link--phone {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .hero-nav-link--coffee {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  /* Must be an explicit width: a percentage here resolves against the grid
+     track, which falls back to the PNG's 914px intrinsic width and blows the
+     column out to the full row. */
+  .hero-avatar {
+    width: clamp(150px, 40vw, 200px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-nav-icon,
+  .hero-nav-link:hover .hero-nav-icon,
+  .hero-nav-link:focus-visible .hero-nav-icon {
+    transition-duration: 0.01ms;
+    transform: rotate(var(--tilt));
+  }
+
+  .hero-avatar,
+  .hero-avatar-wrap a:hover .hero-avatar,
+  .hero-avatar-wrap a:focus-visible .hero-avatar {
+    transition-duration: 0.01ms;
+    transform: none;
   }
 }
