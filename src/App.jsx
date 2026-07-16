@@ -55,11 +55,17 @@ const App = () => {
       return;
     }
 
-    // In-page anchor targets (e.g. #experience, #portfolio, #about)
+    // In-page anchor targets (e.g. #experience, #portfolio, #about).
+    // scrollIntoView would aim at the element's TRANSFORMED position, and
+    // the folder sections get translated while waiting at the fold (see
+    // usePaperPile), so scroll to the layout position instead — offsetTop
+    // is unaffected by transforms. 44 = --stack-top (the tab pin line).
     if (url.startsWith("#")) {
       const target = document.querySelector(url);
       if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
+        let top = 0;
+        for (let el = target; el; el = el.offsetParent) top += el.offsetTop;
+        window.scrollTo({ top: top - 44, behavior: "smooth" });
         history.replaceState(null, "", url);
         window.dispatchEvent(new HashChangeEvent("hashchange"));
       }
