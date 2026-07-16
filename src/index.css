@@ -391,6 +391,12 @@
   .folder-body-inner {
     padding: 2.5rem 0 3rem;
   }
+
+  /* About copy reads smaller on phones (desktop stays at the 0.9x scale). */
+  .folder-body .text-\[18px\] {
+    font-size: 14px;
+    line-height: 1.55;
+  }
 }
 
 /* Fill the screen so the first folder tab sits exactly at the fold, never
