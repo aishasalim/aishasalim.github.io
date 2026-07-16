@@ -70,7 +70,7 @@ const App = () => {
 
   return (
     <>
-      <div className="bg-surface text-foreground">
+      <div className="text-foreground">
         <Topbar
           handleClick={handleClick}
           openNavigation={openNavigation}
