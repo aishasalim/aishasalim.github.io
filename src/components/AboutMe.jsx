@@ -14,7 +14,7 @@ const AboutMe = () => {
       <img
         src={about.image}
         alt={about.imageAlt}
-        className="w-full max-h-48 rounded-[20px] object-cover shadow-lg sm:max-h-none"
+        className="w-full max-h-[222px] rounded-[20px] object-cover shadow-lg sm:max-h-none"
       />
     </div>
   );
